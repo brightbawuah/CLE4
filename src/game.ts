@@ -59,41 +59,41 @@ class Fish {
 
     }
 }
+
+STAP 1 - maak een pixi canvas
+
+const pixi = new PIXI.Application({ width: 800, height: 450 })
+document.body.appendChild(pixi.view)
+
+let fish: PIXI.Sprite
 //
-// STAP 1 - maak een pixi canvas
+// STAP 2 - preload alle afbeeldingen
 //
-// const pixi = new PIXI.Application({ width: 800, height: 450 })
-// document.body.appendChild(pixi.view)
-
-// let fish: PIXI.Sprite
-// //
-// // STAP 2 - preload alle afbeeldingen
-// //
-// const loader = new PIXI.Loader()
+const loader = new PIXI.Loader()
 
 
-// //
-// // STAP 3 - maak een sprite als de afbeeldingen zijn geladen
-// //
-// function loadCompleted() {
-//     fish = new PIXI.Sprite(loader.resources["fishTexture"].texture!)
+//
+// STAP 3 - maak een sprite als de afbeeldingen zijn geladen
+//
+function loadCompleted() {
+    fish = new PIXI.Sprite(loader.resources["fishTexture"].texture!)
 
-//     fish.interactive = true
-//     fish.buttonMode = true
+    fish.interactive = true
+    fish.buttonMode = true
 
 
 
-//     fish.x = 150
-//     fish.y = 200
+    fish.x = 150
+    fish.y = 200
 
-//     fish.scale.set(-1, 1)
+    fish.scale.set(-1, 1)
 
-//     pixi.stage.addChild(fish)
+    pixi.stage.addChild(fish)
 
-//     pixi.ticker.add(() => update())
+    pixi.ticker.add(() => update())
 
-//     function update() {
-//         console.log("update!!!")
-//         fish.x += 0.2
-//     }
-// }
+    function update() {
+        console.log("update!!!")
+        fish.x += 0.2
+    }
+}
