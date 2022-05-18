@@ -1,99 +1,59 @@
+// 2 objecten aanmaken die automatisch bewegen om collision te testten 
 import * as PIXI from 'pixi.js'
-import fishImage from "./images/fish.png"
 import bubbleImage from "./images/bubble.png"
-import waterImage from "./images/water.jpg"
-import { Sprite, UPDATE_PRIORITY } from 'pixi.js'
-
-export class Game {
-    pixi: PIXI.Application
-    loader: PIXI.Loader
-    water: PIXI.Sprite
-    bubble: PIXI.Sprite
-
-
-    constructor() {
-        this.pixi = new PIXI.Application({ width: 800, height: 450 })
-        document.body.appendChild(this.pixi.view)
-
-
-        this.loader.add('bubbleTexture', bubbleImage)
-            .add('waterTexture', waterImage)
+import enemyImage from "./images/bubble copy.png"
 
 
 
-    }
-
-
-}
-
-let game = new Game()
-
-class Fish {
-    fish: PIXI.Sprite
-    loader: PIXI.Loader
-
-    constructor(x: number, y: number) {
-        this.fish
-        this.loader = new PIXI.Loader()
-        this.loader.add('fishTexture', fishImage)
-
-        this.loader.load(() => this.loadcompleted())
-        this.update
-    }
-    loadcompleted() {
-        this.fish = new PIXI.Sprite(this.loader.resources["fishTexture"].texture!)
-
-        this.fish.x = 150
-        this.fish.y = 200
-
-        this.fish.scale.set(-1, 1)
-
-        this.pixi.stage.addChild(this.fish)
-
-        this.pixi.ticker.add(() => this.update())
-
-    }
-    update() {
-        console.log("update!!!")
-        this.fish.x += 0.2
-
-    }
-}
-
-STAP 1 - maak een pixi canvas
-
-const pixi = new PIXI.Application({ width: 800, height: 450 })
+const pixi = new PIXI.Application({ width: 800, height: 600 })
 document.body.appendChild(pixi.view)
 
-let fish: PIXI.Sprite
-//
-// STAP 2 - preload alle afbeeldingen
-//
 const loader = new PIXI.Loader()
+loader.add('bubbleTexture', bubbleImage)
+      .add('enemyTexture', enemyImage)
+      loader.load(()=>loadCompleted())
 
+      function loadCompleted() {
 
-//
-// STAP 3 - maak een sprite als de afbeeldingen zijn geladen
-//
-function loadCompleted() {
-    fish = new PIXI.Sprite(loader.resources["fishTexture"].texture!)
+        
 
-    fish.interactive = true
-    fish.buttonMode = true
+let player = new PIXI.Sprite(loader.resources["bubbleTexture"].texture!)
+player.anchor.set(0,5);
+player.x = 100;
+player.y = pixi.view.height /2;
 
+let enemy = new PIXI.Sprite(loader.resources["enemyTexture"].texture!)
+enemy.anchor.set(0,5);
+enemy.x = pixi.view.width - 100;
+enemy.y = pixi.view.height /2;
 
+let speed = 1;
 
-    fish.x = 150
-    fish.y = 200
+pixi.stage.addChild(player);
+pixi.stage.addChild(enemy);
 
-    fish.scale.set(-1, 1)
+pixi.ticker.add(gameLoop);
 
-    pixi.stage.addChild(fish)
+function gameLoop(){
+    player.x += speed;
+    enemy.x -= speed;
 
-    pixi.ticker.add(() => update())
-
-    function update() {
-        console.log("update!!!")
-        fish.x += 0.2
+    if(rectsIntersect(player, enemy)){
+        pixi.stage.removeChild(enemy);
     }
+
+
 }
+
+function rectsIntersect (a, b){
+    let aBox = a.getBounds();
+    let bBox = b.getBounds();
+
+    return aBox.x + aBox.width > bBox.x &&
+    aBox.x < bBox.x + bBox.width &&
+    aBox.y + aBox.height > bBox.y &&
+    aBox.y < bBox.y + bBox.height;
+    
+
+}
+      }
