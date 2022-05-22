@@ -3,6 +3,7 @@ import fishImage from "./images/fish.png"
 import bubbleImage from "./images/bubble.png"
 import waterImage from "./images/water.jpg"
 import { Fish } from './fish'
+import { Road } from './playingfield';
 
 
 
@@ -12,14 +13,16 @@ export class Game {
     pixi
     fishes: Fish[] = []
     loader: PIXI.Loader
+    road: Road
 
     constructor() {
         this.pixi = new PIXI.Application({ width: 800, height: 400 })
         document.body.appendChild(this.pixi.view)
         this.loader = new PIXI.Loader()
         this.loader.add('fishTexture', fishImage)
-
         this.loader.load(() => this.loadcompleted())
+        this.road = new Road()
+        this.pixi.stage.addChild(this.road.graphics);
 
     }
     loadcompleted() {
@@ -33,6 +36,7 @@ export class Game {
 
         this.pixi.ticker.add(() => fish.update())
 
+
     }
     // update() {
     //     console.log("update!!!")
@@ -40,5 +44,19 @@ export class Game {
 
     // }
 }
+
+// const app = new PIXI.Application({ antialias: true });
+// document.body.appendChild(app.view);
+
+// const graphics = new PIXI.Graphics();
+
+// // Rectangle
+// graphics.beginFill(0xffffff);
+// graphics.drawRect(275, 0, 266, 600);
+// graphics.endFill();
+// // graphics.position.x = 350;
+// // graphics.position.y = 200;
+
+// app.stage.addChild(graphics);
 
 let game = new Game()

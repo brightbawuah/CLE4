@@ -6,8 +6,8 @@ export class Fish extends PIXI.Sprite {
 
     constructor(texture: PIXI.Texture, pixi: PIXI.Application) {
         super(texture)
-        this.y = Math.random() * pixi.screen.height
-        this.x = Math.random() * pixi.screen.width
+        this.y = 280
+        this.x = 475
         this.tint = Math.random() * 0xFFFFFF
         this.scale.set(-1, 1)
         pixi.stage.addChild(this)
@@ -33,14 +33,14 @@ export class Fish extends PIXI.Sprite {
             case "ARROWRIGHT":
                 this.xspeed = 7
                 break
-            case "W":
-            case "ARROWUP":
-                this.yspeed = -7
-                break
-            case "S":
-            case "ARROWDOWN":
-                this.yspeed = 7
-                break
+            // case "W":
+            // case "ARROWUP":
+            //     this.yspeed = -7
+            //     break
+            // case "S":
+            // case "ARROWDOWN":
+            //     this.yspeed = 7
+            //     break
         }
     }
 
