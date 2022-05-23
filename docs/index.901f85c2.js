@@ -37067,11 +37067,17 @@ parcelHelpers.export(exports, "Fish", ()=>Fish
 var _pixiJs = require("pixi.js");
 class Fish extends _pixiJs.Sprite {
     xspeed = 0;
-    yspeed = 0;
+    xposition = 1;
+    lane = [
+        200,
+        475,
+        725
+    ];
+    // yspeed = 0
     constructor(texture, pixi){
         super(texture);
         this.y = 280;
-        this.x = 475;
+        this.x = this.lane[this.xposition];
         this.tint = Math.random() * 16777215;
         this.scale.set(-1, 1);
         pixi.stage.addChild(this);
@@ -37082,22 +37088,25 @@ class Fish extends _pixiJs.Sprite {
     }
     update() {
         console.log("update!!!");
-        this.x += this.xspeed;
-        this.y += this.yspeed;
+        this.x = this.lane[this.xposition];
+    // this.y += this.yspeed
     }
     onKeyDown(e) {
         switch(e.key.toUpperCase()){
             case "A":
             case "ARROWLEFT":
-                this.xspeed = -7;
+                // this.xposition = this.xposition - 1
+                if (this.xposition !== 0) this.xposition = this.xposition - 1;
                 break;
             case "D":
             case "ARROWRIGHT":
-                this.xspeed = 7;
+                // this.xposition = this.xposition + 1
+                if (this.xposition !== 2) this.xposition = this.xposition + 1;
                 break;
         }
     }
     onKeyUp(e) {
+        console.log(this.xposition);
         switch(e.key.toUpperCase()){
             case " ":
                 break;
@@ -37105,14 +37114,7 @@ class Fish extends _pixiJs.Sprite {
             case "D":
             case "ARROWLEFT":
             case "ARROWRIGHT":
-                this.xspeed = 0;
-                break;
-            case "W":
-            case "S":
-            case "ARROWUP":
-            case "ARROWDOWN":
-                this.yspeed = 0;
-                break;
+                console.log(this.lane[this.xposition]);
         }
     }
 }

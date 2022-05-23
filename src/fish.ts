@@ -2,12 +2,15 @@ import * as PIXI from 'pixi.js'
 
 export class Fish extends PIXI.Sprite {
     xspeed = 0
-    yspeed = 0
+    xposition = 1
+    lane = [200, 475, 725]
+
+    // yspeed = 0
 
     constructor(texture: PIXI.Texture, pixi: PIXI.Application) {
         super(texture)
         this.y = 280
-        this.x = 475
+        this.x = this.lane[this.xposition]
         this.tint = Math.random() * 0xFFFFFF
         this.scale.set(-1, 1)
         pixi.stage.addChild(this)
@@ -18,20 +21,32 @@ export class Fish extends PIXI.Sprite {
     }
     update() {
         console.log("update!!!")
-        this.x += this.xspeed
-        this.y += this.yspeed
+        this.x = this.lane[this.xposition]
+        // this.y += this.yspeed
     }
 
 
     onKeyDown(e: KeyboardEvent): void {
+
+
+
         switch (e.key.toUpperCase()) {
             case "A":
             case "ARROWLEFT":
-                this.xspeed = -7
+                // this.xposition = this.xposition - 1
+                if (this.xposition !== 0) {
+
+                    this.xposition = this.xposition - 1
+
+                }
                 break
             case "D":
             case "ARROWRIGHT":
-                this.xspeed = 7
+                // this.xposition = this.xposition + 1
+                if (this.xposition !== 2) {
+                    this.xposition = this.xposition + 1
+
+                }
                 break
             // case "W":
             // case "ARROWUP":
@@ -45,6 +60,8 @@ export class Fish extends PIXI.Sprite {
     }
 
     private onKeyUp(e: KeyboardEvent): void {
+        console.log(this.xposition)
+
         switch (e.key.toUpperCase()) {
             case " ":
                 break;
@@ -52,14 +69,14 @@ export class Fish extends PIXI.Sprite {
             case "D":
             case "ARROWLEFT":
             case "ARROWRIGHT":
-                this.xspeed = 0
-                break
-            case "W":
-            case "S":
-            case "ARROWUP":
-            case "ARROWDOWN":
-                this.yspeed = 0
-                break
+                console.log(this.lane[this.xposition])
+            //     break
+            // case "W":
+            // case "S":
+            // case "ARROWUP":
+            // case "ARROWDOWN":
+            //     this.yspeed = 0
+            //     break
         }
     }
 }
