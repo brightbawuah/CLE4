@@ -522,6 +522,7 @@ var _pixiJs = require("pixi.js");
 var _fishPng = require("./images/fish.png");
 var _fishPngDefault = parcelHelpers.interopDefault(_fishPng);
 var _fish = require("./fish");
+var _playingfield = require("./playingfield");
 class Game {
     fishes = [];
     constructor(){
@@ -534,6 +535,8 @@ class Game {
         this.loader.add('fishTexture', _fishPngDefault.default);
         this.loader.load(()=>this.loadcompleted()
         );
+        this.road = new _playingfield.Road();
+        this.pixi.stage.addChild(this.road.graphics);
     }
     loadcompleted() {
         let fish = new _fish.Fish(this.loader.resources["fishTexture"].texture, this.pixi);
@@ -547,9 +550,19 @@ class Game {
         );
     }
 }
+// const app = new PIXI.Application({ antialias: true });
+// document.body.appendChild(app.view);
+// const graphics = new PIXI.Graphics();
+// // Rectangle
+// graphics.beginFill(0xffffff);
+// graphics.drawRect(275, 0, 266, 600);
+// graphics.endFill();
+// // graphics.position.x = 350;
+// // graphics.position.y = 200;
+// app.stage.addChild(graphics);
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/fish.png":"3tLwD","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./fish":"7VsCH"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./fish":"7VsCH","./playingfield":"6vZ0N","./images/fish.png":"3tLwD"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37046,7 +37059,81 @@ function __extends(d, b) {
     return AnimatedSprite1;
 }(_sprite.Sprite);
 
-},{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3tLwD":[function(require,module,exports) {
+},{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7VsCH":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Fish", ()=>Fish
+);
+var _pixiJs = require("pixi.js");
+class Fish extends _pixiJs.Sprite {
+    xspeed = 0;
+    yspeed = 0;
+    constructor(texture, pixi){
+        super(texture);
+        this.y = 280;
+        this.x = 475;
+        this.tint = Math.random() * 16777215;
+        this.scale.set(-1, 1);
+        pixi.stage.addChild(this);
+        window.addEventListener("keydown", (e)=>this.onKeyDown(e)
+        );
+        window.addEventListener("keyup", (e)=>this.onKeyUp(e)
+        );
+    }
+    update() {
+        console.log("update!!!");
+        this.x += this.xspeed;
+        this.y += this.yspeed;
+    }
+    onKeyDown(e) {
+        switch(e.key.toUpperCase()){
+            case "A":
+            case "ARROWLEFT":
+                this.xspeed = -7;
+                break;
+            case "D":
+            case "ARROWRIGHT":
+                this.xspeed = 7;
+                break;
+        }
+    }
+    onKeyUp(e) {
+        switch(e.key.toUpperCase()){
+            case " ":
+                break;
+            case "A":
+            case "D":
+            case "ARROWLEFT":
+            case "ARROWRIGHT":
+                this.xspeed = 0;
+                break;
+            case "W":
+            case "S":
+            case "ARROWUP":
+            case "ARROWDOWN":
+                this.yspeed = 0;
+                break;
+        }
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6vZ0N":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Road", ()=>Road
+);
+var _pixiJs = require("pixi.js");
+class Road {
+    constructor(){
+        // Rectangle
+        this.graphics = new _pixiJs.Graphics();
+        this.graphics.beginFill(16777215);
+        this.graphics.drawRect(275, 0, 266, 600);
+        this.graphics.endFill();
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","pixi.js":"dsYej"}],"3tLwD":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "fish.510b053c.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -37083,72 +37170,6 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"7VsCH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Fish", ()=>Fish
-);
-var _pixiJs = require("pixi.js");
-class Fish extends _pixiJs.Sprite {
-    xspeed = 0;
-    yspeed = 0;
-    constructor(texture, pixi){
-        super(texture);
-        this.y = Math.random() * pixi.screen.height;
-        this.x = Math.random() * pixi.screen.width;
-        this.tint = Math.random() * 16777215;
-        this.scale.set(-1, 1);
-        pixi.stage.addChild(this);
-        window.addEventListener("keydown", (e)=>this.onKeyDown(e)
-        );
-        window.addEventListener("keyup", (e)=>this.onKeyUp(e)
-        );
-    }
-    update() {
-        console.log("update!!!");
-        this.x += this.xspeed;
-        this.y += this.yspeed;
-    }
-    onKeyDown(e) {
-        switch(e.key.toUpperCase()){
-            case "A":
-            case "ARROWLEFT":
-                this.xspeed = -7;
-                break;
-            case "D":
-            case "ARROWRIGHT":
-                this.xspeed = 7;
-                break;
-            case "W":
-            case "ARROWUP":
-                this.yspeed = -7;
-                break;
-            case "S":
-            case "ARROWDOWN":
-                this.yspeed = 7;
-                break;
-        }
-    }
-    onKeyUp(e) {
-        switch(e.key.toUpperCase()){
-            case " ":
-                break;
-            case "A":
-            case "D":
-            case "ARROWLEFT":
-            case "ARROWRIGHT":
-                this.xspeed = 0;
-                break;
-            case "W":
-            case "S":
-            case "ARROWUP":
-            case "ARROWDOWN":
-                this.yspeed = 0;
-                break;
-        }
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map
