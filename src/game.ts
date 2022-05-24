@@ -2,15 +2,14 @@ import * as PIXI from 'pixi.js'
 import bubbleImage from "./images/bubble.png"
 import waterImage from "./images/water.jpg"
 import fishImage from "./images/fish.png"
-import laneImage from "./images/lanes.png"
-import { Fish } from './Fish'
+
 import { Road } from './road'
 
 export class Game {
 
     pixi: PIXI.Application
 
-    fishes: Fish[] = []
+    // fishes: Fish[] = []
 
     loader: PIXI.Loader
 

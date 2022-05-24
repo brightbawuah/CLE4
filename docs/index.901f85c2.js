@@ -519,12 +519,13 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
-var _fishPng = require("./images/fish.png");
-var _fishPngDefault = parcelHelpers.interopDefault(_fishPng);
 var _bubblePng = require("./images/bubble.png");
 var _bubblePngDefault = parcelHelpers.interopDefault(_bubblePng);
 var _waterJpg = require("./images/water.jpg");
 var _waterJpgDefault = parcelHelpers.interopDefault(_waterJpg);
+var _fishPng = require("./images/fish.png");
+var _fishPngDefault = parcelHelpers.interopDefault(_fishPng);
+var _road = require("./road");
 class Game {
     constructor(){
         this.pixi = new _pixiJs.Application({
@@ -532,61 +533,25 @@ class Game {
             height: 450
         });
         document.body.appendChild(this.pixi.view);
-        this.loader.add('bubbleTexture', _bubblePngDefault.default).add('waterTexture', _waterJpgDefault.default);
+        this.loader = new _pixiJs.Loader();
+        this.loader.add('fishTexture', _fishPngDefault.default).add('bubbleTexture', _bubblePngDefault.default).add('waterTexture', _waterJpgDefault.default);
+        this.loader.load(()=>this.loadCompleted()
+        );
+    }
+    loadCompleted() {
+        // this.fishes.push(new Fish(game.loader.resources["fishTexture"].texture!, this))
+        this.pixi.ticker.add(()=>this.update()
+        );
+        this.road = new _road.Road();
+        this.pixi.stage.addChild(this.road);
+    }
+    update() {
+        console.log("UPDATE!!!");
     }
 }
 let game = new Game();
-class Fish {
-    constructor(x, y){
-        this.fish;
-        this.loader = new _pixiJs.Loader();
-        this.loader.add('fishTexture', _fishPngDefault.default);
-        this.loader.load(()=>this.loadcompleted()
-        );
-        this.update;
-    }
-    loadcompleted() {
-        this.fish = new _pixiJs.Sprite(this.loader.resources["fishTexture"].texture);
-        this.fish.x = 150;
-        this.fish.y = 200;
-        this.fish.scale.set(-1, 1);
-        this.pixi.stage.addChild(this.fish);
-        this.pixi.ticker.add(()=>this.update()
-        );
-    }
-    update() {
-        console.log("update!!!");
-        this.fish.x += 0.2;
-    }
-} //
- // STAP 1 - maak een pixi canvas
- //
- // const pixi = new PIXI.Application({ width: 800, height: 450 })
- // document.body.appendChild(pixi.view)
- // let fish: PIXI.Sprite
- // //
- // // STAP 2 - preload alle afbeeldingen
- // //
- // const loader = new PIXI.Loader()
- // //
- // // STAP 3 - maak een sprite als de afbeeldingen zijn geladen
- // //
- // function loadCompleted() {
- //     fish = new PIXI.Sprite(loader.resources["fishTexture"].texture!)
- //     fish.interactive = true
- //     fish.buttonMode = true
- //     fish.x = 150
- //     fish.y = 200
- //     fish.scale.set(-1, 1)
- //     pixi.stage.addChild(fish)
- //     pixi.ticker.add(() => update())
- //     function update() {
- //         console.log("update!!!")
- //         fish.x += 0.2
- //     }
- // }
 
-},{"pixi.js":"dsYej","./images/fish.png":"3tLwD","./images/bubble.png":"iMP3P","./images/water.jpg":"jj9Eg","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/bubble.png":"iMP3P","./images/water.jpg":"jj9Eg","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/fish.png":"3tLwD","./road":"lR9ZY"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37083,8 +37048,8 @@ function __extends(d, b) {
     return AnimatedSprite1;
 }(_sprite.Sprite);
 
-},{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3tLwD":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "fish.510b053c.png" + "?" + Date.now();
+},{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iMP3P":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "bubble.56ab0ad6.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
@@ -37120,12 +37085,34 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"iMP3P":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "bubble.56ab0ad6.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"jj9Eg":[function(require,module,exports) {
+},{}],"jj9Eg":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "water.59ff4e4f.jpg" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"./helpers/bundle-url":"lgJ39"}],"3tLwD":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "fish.510b053c.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"lR9ZY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Road", ()=>Road
+);
+var _pixiJs = require("pixi.js");
+class Road extends _pixiJs.Graphics {
+    constructor(){
+        super();
+        // Rectangle
+        this.beginFill(14271916);
+        this.drawRect(300, 0, 200, 700);
+        this.endFill();
+        this.beginFill(9070146);
+        this.drawRect(500, 0, 200, 700);
+        this.endFill();
+        this.beginFill(9070146);
+        this.drawRect(100, 0, 200, 700);
+        this.endFill();
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map
