@@ -1,10 +1,11 @@
 import * as PIXI from 'pixi.js'
-export class money1 extends PIXI.Sprite{
-    constructor(texture: PIXI.Texture){
-        super(texture); // new PIXI.Sprite()
+export class Moneybag extends PIXI.Sprite{
+    constructor(amount:number, loader:PIXI.Loader){
+        super(loader.resources[`moneyImage${amount}`].texture!); // new PIXI.Sprite()
+    
     
     }
     update(delta: number){
-        
+       
     }
 }
