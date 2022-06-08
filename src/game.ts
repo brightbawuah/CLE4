@@ -52,80 +52,79 @@ export class Game {
         // this.pixi.stage.addChild(road);
 
 
+
+
+    }
+
+    update() {
+        // console.log(this.number)
+        // // console.log(this.fallingObject.y)
+        // if ((this.collision(this.number, this.fish)) ||
+        //     (this.collision(this.number2, this.fish))) {
+        //     this.number.y == 0
+        //     // this.fallingObject1.y == 0
+        //     this.number2.y == 0
+
+        // }
+        // console.log(this.number.y)
+
+        // if (this.collision(this.number, this.fish) === false) {
+        //     this.number.y += 2
+
+        //     this.number2.y += 2
+
+        // }
+        // this.number1.y += 2
+
+        // if (this.number.y > 600) {
+        //     this.number.y = -100
+        // }
+
+        // if (this.number.y <= 300) {
+        //     // this.number.color[1]
+        // }
+
+        // if (this.number1.y > 600) {
+        //     this.number1.y = -100;
+        // }
+
+
+        // if (this.number2.y > 600) {
+        //     this.number2.y = -100;
+        // }
+
+        // if (this.collision(this.number, this.fish)) {
+        //     console.log("player touches enemy 💀")
+        //     // this.pixi.stage.removeChild(this.fish);
+        // }
+        // if (this.collision(this.number1, this.fish)) {
+        //     console.log("✅✅✅✅✅")
+        //     this.number1.y = 0
+        //     // this.fallingObject1.destroy
+        //     // this.collision(this.fallingObject1, fish)
+
+
+        // }
+        // if (this.collision(this.number2, this.fish)) {
+        //     console.log("player touches enemy 💀")
+        //     this.number2.y = 0
+
+        //     // this.pixi.stage.removeChild(this.fish);
+        // }
+
+    }
+
+    loadcompleted() {
+        this.fish = new Fish(this.loader.resources["fishTexture"].texture!, this.pixi)
+        this.pixi.stage.addChild(this.fish)
+
         this.number = new Number(150, 350, this.loader.resources["bagTexture1"].texture!, this.pixi)
         this.number1 = new Number(400, 200, this.loader.resources["bagTexture2"].texture!, this.pixi)
         this.number2 = new Number(675, 300, this.loader.resources["bagTexture3"].texture!, this.pixi)
 
         this.pixi.stage.addChild(this.number, this.number1, this.number2)
 
-    }
-
-    update() {
-        console.log(this.number)
-        // console.log(this.fallingObject.y)
-        if ((this.collision(this.number, this.fish)) ||
-            (this.collision(this.number2, this.fish))) {
-            this.number.y == 0
-            // this.fallingObject1.y == 0
-            this.number2.y == 0
-
-        }
-        console.log(this.number.y)
-
-        if (this.collision(this.number, this.fish) === false) {
-            this.number.y += 2
-
-            this.number2.y += 2
-
-        }
-        this.number1.y += 2
-
-        if (this.number.y > 600) {
-            this.number.y = -100
-        }
-
-        if (this.number.y <= 300) {
-            // this.number.color[1]
-        }
-
-        if (this.number1.y > 600) {
-            this.number1.y = -100;
-        }
-
-
-        if (this.number2.y > 600) {
-            this.number2.y = -100;
-        }
-
-        if (this.collision(this.number, this.fish)) {
-            console.log("player touches enemy 💀")
-            // this.pixi.stage.removeChild(this.fish);
-        }
-        if (this.collision(this.number1, this.fish)) {
-            console.log("✅✅✅✅✅")
-            this.number1.y = 0
-            // this.fallingObject1.destroy
-            // this.collision(this.fallingObject1, fish)
-
-
-        }
-        if (this.collision(this.number2, this.fish)) {
-            console.log("player touches enemy 💀")
-            this.number2.y = 0
-
-            // this.pixi.stage.removeChild(this.fish);
-        }
-
-    }
-
-    loadcompleted() {
-        this.fish = new Fish(this.loader.resources["fishTexture"].texture!, this.pixi)
-
-        this.pixi.stage.addChild(this.number, this.number1, this.number2)
-
-        this.pixi.ticker.add(() => this.fish.update())
-
-            .add(() => this.update())
+        this.pixi.ticker.add(() => this.update())
     }
     // createFallingObject(color: number) {
     //     this.number = new FallingObjects(150, -100, color)

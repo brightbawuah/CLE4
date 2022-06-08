@@ -566,49 +566,60 @@ class Game {
         this.loader.add('fishTexture', _fishPngDefault.default).add('bagTexture1', _1PngDefault.default).add('bagTexture2', _2PngDefault.default).add('bagTexture3', _3PngDefault.default).add('bagTexture4', _4PngDefault.default).add('bagTexture5', _5PngDefault.default).add('bagTexture6', _6PngDefault.default).add('bagTexture7', _7PngDefault.default).add('bagTexture8', _8PngDefault.default).add('bagTexture9', _9PngDefault.default).add('bagTexture10', _10PngDefault.default);
         this.loader.load(()=>this.loadcompleted()
         );
-        // let road = new Road()
-        // this.pixi.stage.addChild(road);
+    // let road = new Road()
+    // this.pixi.stage.addChild(road);
+    }
+    update() {
+    // console.log(this.number)
+    // // console.log(this.fallingObject.y)
+    // if ((this.collision(this.number, this.fish)) ||
+    //     (this.collision(this.number2, this.fish))) {
+    //     this.number.y == 0
+    //     // this.fallingObject1.y == 0
+    //     this.number2.y == 0
+    // }
+    // console.log(this.number.y)
+    // if (this.collision(this.number, this.fish) === false) {
+    //     this.number.y += 2
+    //     this.number2.y += 2
+    // }
+    // this.number1.y += 2
+    // if (this.number.y > 600) {
+    //     this.number.y = -100
+    // }
+    // if (this.number.y <= 300) {
+    //     // this.number.color[1]
+    // }
+    // if (this.number1.y > 600) {
+    //     this.number1.y = -100;
+    // }
+    // if (this.number2.y > 600) {
+    //     this.number2.y = -100;
+    // }
+    // if (this.collision(this.number, this.fish)) {
+    //     console.log("player touches enemy 💀")
+    //     // this.pixi.stage.removeChild(this.fish);
+    // }
+    // if (this.collision(this.number1, this.fish)) {
+    //     console.log("✅✅✅✅✅")
+    //     this.number1.y = 0
+    //     // this.fallingObject1.destroy
+    //     // this.collision(this.fallingObject1, fish)
+    // }
+    // if (this.collision(this.number2, this.fish)) {
+    //     console.log("player touches enemy 💀")
+    //     this.number2.y = 0
+    //     // this.pixi.stage.removeChild(this.fish);
+    // }
+    }
+    loadcompleted() {
+        this.fish = new _fish.Fish(this.loader.resources["fishTexture"].texture, this.pixi);
+        this.pixi.stage.addChild(this.fish);
         this.number = new _number.Number(150, 350, this.loader.resources["bagTexture1"].texture, this.pixi);
         this.number1 = new _number.Number(400, 200, this.loader.resources["bagTexture2"].texture, this.pixi);
         this.number2 = new _number.Number(675, 300, this.loader.resources["bagTexture3"].texture, this.pixi);
         this.pixi.stage.addChild(this.number, this.number1, this.number2);
-    }
-    update() {
-        console.log(this.number);
-        // console.log(this.fallingObject.y)
-        if (this.collision(this.number, this.fish) || this.collision(this.number2, this.fish)) {
-            this.number.y;
-            // this.fallingObject1.y == 0
-            this.number2.y;
-        }
-        console.log(this.number.y);
-        if (this.collision(this.number, this.fish) === false) {
-            this.number.y += 2;
-            this.number2.y += 2;
-        }
-        this.number1.y += 2;
-        if (this.number.y > 600) this.number.y = -100;
-        this.number.y;
-        if (this.number1.y > 600) this.number1.y = -100;
-        if (this.number2.y > 600) this.number2.y = -100;
-        if (this.collision(this.number, this.fish)) console.log("player touches enemy 💀");
-        if (this.collision(this.number1, this.fish)) {
-            console.log("✅✅✅✅✅");
-            this.number1.y = 0;
-        // this.fallingObject1.destroy
-        // this.collision(this.fallingObject1, fish)
-        }
-        if (this.collision(this.number2, this.fish)) {
-            console.log("player touches enemy 💀");
-            this.number2.y = 0;
-        // this.pixi.stage.removeChild(this.fish);
-        }
-    }
-    loadcompleted() {
-        this.fish = new _fish.Fish(this.loader.resources["fishTexture"].texture, this.pixi);
-        this.pixi.stage.addChild(this.number, this.number1, this.number2);
-        this.pixi.ticker.add(()=>this.fish.update()
-        ).add(()=>this.update()
+        this.pixi.ticker.add(()=>this.update()
         );
     }
     // createFallingObject(color: number) {
@@ -628,7 +639,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/fish.png":"3tLwD","./fish":"7VsCH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/1.png":"h4WSy","./images/2.png":"4Vjws","./images/3.png":"kzCwi","./images/4.png":"2dng1","./images/5.png":"2aUQN","./images/6.png":"1Jruz","./images/7.png":"5qNG0","./images/8.png":"ksapm","./images/9.png":"jRGU5","./images/10.png":"akEYY","./number":"lXZ3U"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/fish.png":"3tLwD","./fish":"7VsCH","./number":"lXZ3U","./images/1.png":"h4WSy","./images/2.png":"4Vjws","./images/3.png":"kzCwi","./images/4.png":"2dng1","./images/5.png":"2aUQN","./images/6.png":"1Jruz","./images/7.png":"5qNG0","./images/8.png":"ksapm","./images/9.png":"jRGU5","./images/10.png":"akEYY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37220,6 +37231,21 @@ class Fish extends _pixiJs.Sprite {
     }
 }
 
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lXZ3U":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Number", ()=>Number
+);
+var _pixiJs = require("pixi.js");
+class Number extends _pixiJs.Sprite {
+    constructor(xposition, yposition, moneyBag, pixi){
+        super(moneyBag);
+        this.scale.set(3, 3);
+        this.x = xposition;
+        this.y = yposition;
+    }
+}
+
 },{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"h4WSy":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "1.74b1f60c.png" + "?" + Date.now();
 
@@ -37250,21 +37276,6 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "9.28de
 },{"./helpers/bundle-url":"lgJ39"}],"akEYY":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "10.3f2bc39a.png" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}],"lXZ3U":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Number", ()=>Number
-);
-var _pixiJs = require("pixi.js");
-class Number extends _pixiJs.Sprite {
-    constructor(xposition, yposition, moneyBag, pixi){
-        super();
-        this.scale.set(-3, 3);
-        this.x = xposition;
-        this.y = yposition;
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map
