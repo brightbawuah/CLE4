@@ -3,60 +3,66 @@ import fishImage from "./images/fish.png"
 import bubbleImage from "./images/bubble.png"
 import waterImage from "./images/water.jpg"
 import { Fish } from './fish'
-import { Road } from './playingfield';
-
+import geldImage from "./images/geld.png"
+import stoneImage from "./images/stone.png"
+import { Sprite } from 'pixi.js'
 
 
 
 
 export class Game {
-    pixi
-    fishes: Fish[] = []
+    // eigenschappen
     loader: PIXI.Loader
-    road: Road
+    pixi: PIXI.Application
+    fish: PIXI.Sprite
+    enemyfish: PIXI.Sprite
+    enemyfish2: PIXI.Sprite
+    water: PIXI.Sprite
+    myFish : Fish
+    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     constructor() {
-        this.pixi = new PIXI.Application({ width: 800, height: 400 })
+        this.pixi = new PIXI.Application({ width: 800, height: 450 })
         document.body.appendChild(this.pixi.view)
+
+
         this.loader = new PIXI.Loader()
         this.loader.add('fishTexture', fishImage)
-        this.loader.load(() => this.loadcompleted())
-        this.road = new Road()
-        this.pixi.stage.addChild(this.road.graphics);
+        .add('bubbleTexture', bubbleImage)
+        .add('waterTexture', waterImage)
+        .add('geldImage', geldImage)
+        .add('stoneImage', stoneImage)
+        this.loader.load(()=>this.loadCompleted())
+    }
+
+    // functies
+    loadCompleted() {
+        this.fish = new Fish(this.loader.resources["geldImage"].texture!)
+        this.pixi.stage.addChild(this.fish)
+
+        this.enemyfish = new Fish(this.loader.resources["stoneImage"].texture!)
+        this.pixi.stage.addChild(this.enemyfish)
+
+        this.enemyfish2 = new Fish(this.loader.resources["stoneImage"].texture!)
+        this.pixi.stage.addChild(this.enemyfish2)
+        
+
+        this.pixi.ticker.add( () => this.update() )
+    }
+    update(){
+
+        this.fish.x = 340
+        this.fish.y += 3
+
+        this.enemyfish.x = 0
+        this.enemyfish.y += 3
+
+        this.enemyfish2.x = 670
+        this.enemyfish2.y += 3
+
+        console.log(this.numbers[Math.ceil(Math.random() * this.numbers.length)])
 
     }
-    loadcompleted() {
-        let fish = new Fish(this.loader.resources["fishTexture"].texture!, this.pixi)
-        // fish.y = Math.random() * this.pixi.screen
-        // fish.x = Math.random() * this.pixi.screen
-        // fish.tint = Math.random() * 0xFFFFFF
-        // fish.scale.set(-1, 1)
-        // this.pixi.stage.addChild(fish)
-        this.fishes.push(fish)
-
-        this.pixi.ticker.add(() => fish.update())
-
-
-    }
-    // update() {
-    //     console.log("update!!!")
-    //     this.fish.x += 0.2
-
-    // }
 }
-
-// const app = new PIXI.Application({ antialias: true });
-// document.body.appendChild(app.view);
-
-// const graphics = new PIXI.Graphics();
-
-// // Rectangle
-// graphics.beginFill(0xffffff);
-// graphics.drawRect(275, 0, 266, 600);
-// graphics.endFill();
-// // graphics.position.x = 350;
-// // graphics.position.y = 200;
-
-// app.stage.addChild(graphics);
 
 let game = new Game()
