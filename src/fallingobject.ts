@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { Game } from "./game";
 
-export class FallingObjects extends PIXI.Graphics {
+export class FallingObject extends PIXI.Graphics {
     game: Game
     graphics: PIXI.Graphics;
     color = [0xDE3249, 0x35CC5A]

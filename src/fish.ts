@@ -1,17 +1,13 @@
 import * as PIXI from 'pixi.js'
-import { FallingObjects } from "./fallingobjects";
 
 export class Fish extends PIXI.Sprite {
+    xspeed = 0
     yspeed = 0
-    xposition = 1
-    lane = [200, 475, 725]
-    fallingObjectsSpeed: FallingObjects
-
 
     constructor(texture: PIXI.Texture, pixi: PIXI.Application) {
         super(texture)
         this.y = 280
-        this.x = this.lane[this.xposition]
+        this.x = 475
         this.tint = Math.random() * 0xFFFFFF
         this.scale.set(-1, 1)
         pixi.stage.addChild(this)
@@ -21,42 +17,48 @@ export class Fish extends PIXI.Sprite {
 
     }
     update() {
-        this.x = this.lane[this.xposition]
+        console.log("update!!!")
+        this.x += this.xspeed
+        this.y += this.yspeed
     }
 
 
     onKeyDown(e: KeyboardEvent): void {
-
-
-
         switch (e.key.toUpperCase()) {
             case "A":
             case "ARROWLEFT":
-                if (this.xposition !== 0) {
-
-                    this.xposition = this.xposition - 1
-
-                }
+                this.xspeed = -7
                 break
             case "D":
             case "ARROWRIGHT":
-                if (this.xposition !== 2) {
-                    this.xposition = this.xposition + 1
-
-                }
+                this.xspeed = 7
                 break
+            // case "W":
+            // case "ARROWUP":
+            //     this.yspeed = -7
+            //     break
+            // case "S":
+            // case "ARROWDOWN":
+            //     this.yspeed = 7
+            //     break
         }
     }
 
     private onKeyUp(e: KeyboardEvent): void {
-        console.log(this.xposition)
-
         switch (e.key.toUpperCase()) {
+            case " ":
+                break;
             case "A":
             case "D":
             case "ARROWLEFT":
             case "ARROWRIGHT":
-                console.log(this.lane[this.xposition])
+                this.xspeed = 0
+                break
+            case "W":
+            case "S":
+            case "ARROWUP":
+            case "ARROWDOWN":
+                this.yspeed = 0
                 break
         }
     }
