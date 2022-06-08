@@ -1,59 +1,57 @@
-// 2 objecten aanmaken die automatisch bewegen om collision te testten 
 import * as PIXI from 'pixi.js'
-import bubbleImage from "./images/bubble.png"
-import enemyImage from "./images/bubble copy.png"
+import money1I from "./images/money1-1.png.png"
+import money2I from "./images/money2-1.png.png"
+import money3I from "./images/money3-1.png.png"
+import money4I from "./images/money4-1.png.png"
+import money5I from "./images/money5-1.png.png"
+import money6I from "./images/money6-1.png.png"
+import money7I from "./images/money7-1.png.png"
+import money8I from "./images/money8-1.png.png"
+import money9I from "./images/money9-1.png.png"
+import money10I from "./images/money10-1.png.png"
+import { Moneybag } from './moneybag';
+export class Game{
+    
+    pixiWidth = 800;
+    pixiHeight = 450;
+
+    pixi : PIXI.Application;
+    loader : PIXI.Loader;
+
+    moneybags:Moneybag[] = [] 
 
 
+    constructor(){
+        this.pixi = new PIXI.Application({ width: this.pixiWidth, height: this.pixiHeight });
+        this.pixi.stage.interactive = true;
+        this.pixi.stage.hitArea = this.pixi.renderer.screen;
+        document.body.appendChild(this.pixi.view);
+        this.loader = new PIXI.Loader();
+        this.loader.add('moneyImage1', money1I)
+            .add('moneyImage2', money2I)
+            .add('moneyImage3', money3I)
+            .add('moneyImage4', money4I)
+            .add('moneyImage5', money5I)
+            .add('moneyImage6', money6I)
+            .add('moneyImage7', money7I)
+            .add('moneyImage8', money8I)
+            .add('moneyImage9', money9I)
+            .add('moneyImage10', money10I);
 
-const pixi = new PIXI.Application({ width: 800, height: 600 })
-document.body.appendChild(pixi.view)
-
-const loader = new PIXI.Loader()
-loader.add('bubbleTexture', bubbleImage)
-      .add('enemyTexture', enemyImage)
-      loader.load(()=>loadCompleted())
-
-      function loadCompleted() {
-
-        
-
-let player = new PIXI.Sprite(loader.resources["bubbleTexture"].texture!)
-player.anchor.set(0,5);
-player.x = 100;
-player.y = pixi.view.height /2;
-
-let enemy = new PIXI.Sprite(loader.resources["enemyTexture"].texture!)
-enemy.anchor.set(0,5);
-enemy.x = pixi.view.width - 100;
-enemy.y = pixi.view.height /2;
-
-let speed = 1;
-
-pixi.stage.addChild(player);
-pixi.stage.addChild(enemy);
-
-pixi.ticker.add(gameLoop);
-
-function gameLoop(){
-    player.x += speed;
-    enemy.x -= speed;
-
-    if(rectsIntersect(player, enemy)){
-        pixi.stage.removeChild(enemy);
+        this.loader.load(()=>this.loadCompleted());
     }
 
-
-}
-
-function rectsIntersect (a, b){
-    let aBox = a.getBounds();
-    let bBox = b.getBounds();
-
-    return aBox.x + aBox.width > bBox.x &&
-    aBox.x < bBox.x + bBox.width &&
-    aBox.y + aBox.height > bBox.y &&
-    aBox.y < bBox.y + bBox.height;
     
+    loadCompleted() {
 
+
+        for(let i = 1; i < 10; i++){
+             let bag = new Moneybag(i, this.loader)
+             this.moneybags.push(bag)
+        }   
+       
+    }
+ 
+    
 }
-      }
+new Game();
