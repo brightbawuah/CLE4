@@ -17,6 +17,7 @@ import bagSeven from "./images/7.png";
 import bagEight from "./images/8.png";
 import bagNine from "./images/9.png";
 import bagTen from "./images/10.png";
+import dinoImage from "./images/dino.png"
 
 
 
@@ -28,28 +29,31 @@ export class Game {
     number1: Number
     number2: Number
     fish: Fish
-    bagtextures = [bagOne, bagTwo, bagThree, bagFour, bagFive, bagSix, bagSeven, bagEight, bagNine, bagTen]
+    bagtextures: string[] = ['bagTexture1', 'bagTexture2', 'bagTexture3', 'bagTexture4', 'bagTexture5', 'bagTexture6', 'bagTexture7', 'bagTexture8', 'bagTexture9', 'bagTexture10']
+    textureIndex: number[] = []
 
 
 
     constructor() {
         this.pixi = new PIXI.Application({ width: 800, height: 400 })
         document.body.appendChild(this.pixi.view)
+
         this.loader = new PIXI.Loader()
-        this.loader.add('fishTexture', fishImage)
-            .add('bagTexture1', bagOne)
-            .add('bagTexture2', bagTwo)
-            .add('bagTexture3', bagThree)
-            .add('bagTexture4', bagFour)
-            .add('bagTexture5', bagFive)
-            .add('bagTexture6', bagSix)
-            .add('bagTexture7', bagSeven)
-            .add('bagTexture8', bagEight)
-            .add('bagTexture9', bagNine)
-            .add('bagTexture10', bagTen)
+        this.loader
+            .add('dinoTexture', dinoImage)
+            .add(this.bagtextures[0], bagOne)
+            .add(this.bagtextures[1], bagTwo)
+            .add(this.bagtextures[2], bagThree)
+            .add(this.bagtextures[3], bagFour)
+            .add(this.bagtextures[4], bagFive)
+            .add(this.bagtextures[5], bagSix)
+            .add(this.bagtextures[6], bagSeven)
+            .add(this.bagtextures[7], bagEight)
+            .add(this.bagtextures[8], bagNine)
+            .add(this.bagtextures[9], bagTen)
         this.loader.load(() => this.loadcompleted())
-        // let road = new Road()
-        // this.pixi.stage.addChild(road);
+
+
 
 
 
@@ -58,83 +62,103 @@ export class Game {
 
     update() {
         // console.log(this.number)
-        // // console.log(this.fallingObject.y)
-        // if ((this.collision(this.number, this.fish)) ||
-        //     (this.collision(this.number2, this.fish))) {
-        //     this.number.y == 0
-        //     // this.fallingObject1.y == 0
-        //     this.number2.y == 0
+        // console.log(this.fallingObject.y)
+        if ((this.collision(this.number, this.fish)) ||
+            (this.collision(this.number2, this.fish))) {
+            this.number.y == 0
+            // this.fallingObject1.y == 0
+            this.number2.y == 0
 
-        // }
+        }
         // console.log(this.number.y)
 
-        // if (this.collision(this.number, this.fish) === false) {
-        //     this.number.y += 2
+        if (this.collision(this.number, this.fish) === false) {
+            this.number.y += 2
 
-        //     this.number2.y += 2
+            this.number2.y += 2
 
-        // }
-        // this.number1.y += 2
+        }
+        this.number1.y += 2
 
-        // if (this.number.y > 600) {
-        //     this.number.y = -100
-        // }
+        if (this.number.y > 600) {
+            this.number.y = -150
+        }
 
-        // if (this.number.y <= 300) {
-        //     // this.number.color[1]
-        // }
-
-        // if (this.number1.y > 600) {
-        //     this.number1.y = -100;
-        // }
+        if (this.number1.y > 600) {
+            this.number1.y = -150;
+        }
 
 
-        // if (this.number2.y > 600) {
-        //     this.number2.y = -100;
-        // }
+        if (this.number2.y > 600) {
+            this.number2.y = -150;
+        }
 
-        // if (this.collision(this.number, this.fish)) {
-        //     console.log("player touches enemy 💀")
-        //     // this.pixi.stage.removeChild(this.fish);
-        // }
-        // if (this.collision(this.number1, this.fish)) {
-        //     console.log("✅✅✅✅✅")
-        //     this.number1.y = 0
-        //     // this.fallingObject1.destroy
-        //     // this.collision(this.fallingObject1, fish)
+        if (this.collision(this.number, this.fish)) {
+            console.log("player touches enemy 💀")
+            // console.log(this.bagtextures[Math.floor(Math.random() * 9.999)])
+
+            // let number = new Number(125, -150, this.bagtextures[Math.floor(Math.random() * 10)])
+        }
+        if (this.collision(this.number1, this.fish)) {
+            console.log("✅✅✅✅✅")
+            this.number1.y = -150
+            // this.fallingObject1.destroy
+            // this.collision(this.fallingObject1, fish)
 
 
-        // }
-        // if (this.collision(this.number2, this.fish)) {
-        //     console.log("player touches enemy 💀")
-        //     this.number2.y = 0
+        }
+        if (this.collision(this.number2, this.fish)) {
+            console.log("player touches enemy 💀")
+            this.number2.y = -150
 
-        //     // this.pixi.stage.removeChild(this.fish);
-        // }
+            // this.pixi.stage.removeChild(this.fish);
+        }
 
     }
 
     loadcompleted() {
-        this.fish = new Fish(this.loader.resources["fishTexture"].texture!, this.pixi)
-        this.pixi.stage.addChild(this.fish)
+        let road = new Road()
+        this.pixi.stage.addChild(road);
 
-        this.number = new Number(150, 350, this.loader.resources["bagTexture1"].texture!, this.pixi)
-        this.number1 = new Number(400, 200, this.loader.resources["bagTexture2"].texture!, this.pixi)
-        this.number2 = new Number(675, 300, this.loader.resources["bagTexture3"].texture!, this.pixi)
+        this.fish = new Fish(this.loader.resources["dinoTexture"].texture!, this.pixi)
+        this.pixi.stage.addChild(this.fish)
+        const n = Math.floor(Math.random() * 10)
+
+        this.textureIndex.push(this.selectNextNumber())
+        this.textureIndex.push(this.selectNextNumber())
+        this.textureIndex.push(this.selectNextNumber())
+        console.log(this.textureIndex)
+
+        this.number = new Number(125, -150, this.loader.resources[this.bagtextures[this.textureIndex[0]]].texture!, this.pixi)
+        this.number1 = new Number(375, -150, this.loader.resources[this.bagtextures[this.textureIndex[1]]].texture!, this.pixi)
+        this.number2 = new Number(650, -150, this.loader.resources[this.bagtextures[this.textureIndex[2]]].texture!, this.pixi)
 
         this.pixi.stage.addChild(this.number, this.number1, this.number2)
 
+        let index = this.selectNextNumber()
+
         this.pixi.ticker.add(() => this.update())
+            .add(() => this.fish.update())
     }
-    // createFallingObject(color: number) {
-    //     this.number = new FallingObjects(150, -100, color)
-    // }
-    // createFallingObject1(color: number) {
-    //     this.fallingObject1 = new FallingObjects(400, -100, color)
-    // }
-    // createFallingObject2(color: number) {
-    //     this.fallingObject2.push(new FallingObjects(675, -100, color))
-    // }
+
+    selectNextNumber() {
+        // alle gemaakte numbers zitten in een array. 
+
+        // while het nieuwe nummer voorkomt in de array
+        // moet er een nieuwe gekozen worden. 
+        // let numbers: number[] = [2, 6]
+
+
+        let index = 0
+        let newNumber = 0
+        while (index != -1) { // -1 betekent is nieuw
+            newNumber = Math.floor(Math.random() * 10)
+            index = this.textureIndex.indexOf(newNumber)
+        }
+
+        return newNumber
+
+    }
 
     collision(number: Number, fish: Fish) {
         const bounds1 = number.getBounds()

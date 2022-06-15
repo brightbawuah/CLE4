@@ -519,9 +519,8 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
-var _fishPng = require("./images/fish.png");
-var _fishPngDefault = parcelHelpers.interopDefault(_fishPng);
 var _fish = require("./fish");
+var _playingfield = require("./playingfield");
 var _number = require("./number");
 var _1Png = require("./images/1.png");
 var _1PngDefault = parcelHelpers.interopDefault(_1Png);
@@ -543,19 +542,22 @@ var _9Png = require("./images/9.png");
 var _9PngDefault = parcelHelpers.interopDefault(_9Png);
 var _10Png = require("./images/10.png");
 var _10PngDefault = parcelHelpers.interopDefault(_10Png);
+var _dinoPng = require("./images/dino.png");
+var _dinoPngDefault = parcelHelpers.interopDefault(_dinoPng);
 class Game {
     bagtextures = [
-        _1PngDefault.default,
-        _2PngDefault.default,
-        _3PngDefault.default,
-        _4PngDefault.default,
-        _5PngDefault.default,
-        _6PngDefault.default,
-        _7PngDefault.default,
-        _8PngDefault.default,
-        _9PngDefault.default,
-        _10PngDefault.default
+        'bagTexture1',
+        'bagTexture2',
+        'bagTexture3',
+        'bagTexture4',
+        'bagTexture5',
+        'bagTexture6',
+        'bagTexture7',
+        'bagTexture8',
+        'bagTexture9',
+        'bagTexture10'
     ];
+    textureIndex = [];
     constructor(){
         this.pixi = new _pixiJs.Application({
             width: 800,
@@ -563,74 +565,72 @@ class Game {
         });
         document.body.appendChild(this.pixi.view);
         this.loader = new _pixiJs.Loader();
-        this.loader.add('fishTexture', _fishPngDefault.default).add('bagTexture1', _1PngDefault.default).add('bagTexture2', _2PngDefault.default).add('bagTexture3', _3PngDefault.default).add('bagTexture4', _4PngDefault.default).add('bagTexture5', _5PngDefault.default).add('bagTexture6', _6PngDefault.default).add('bagTexture7', _7PngDefault.default).add('bagTexture8', _8PngDefault.default).add('bagTexture9', _9PngDefault.default).add('bagTexture10', _10PngDefault.default);
+        this.loader.add('dinoTexture', _dinoPngDefault.default).add(this.bagtextures[0], _1PngDefault.default).add(this.bagtextures[1], _2PngDefault.default).add(this.bagtextures[2], _3PngDefault.default).add(this.bagtextures[3], _4PngDefault.default).add(this.bagtextures[4], _5PngDefault.default).add(this.bagtextures[5], _6PngDefault.default).add(this.bagtextures[6], _7PngDefault.default).add(this.bagtextures[7], _8PngDefault.default).add(this.bagtextures[8], _9PngDefault.default).add(this.bagtextures[9], _10PngDefault.default);
         this.loader.load(()=>this.loadcompleted()
         );
-    // let road = new Road()
-    // this.pixi.stage.addChild(road);
     }
     update() {
-    // console.log(this.number)
-    // // console.log(this.fallingObject.y)
-    // if ((this.collision(this.number, this.fish)) ||
-    //     (this.collision(this.number2, this.fish))) {
-    //     this.number.y == 0
-    //     // this.fallingObject1.y == 0
-    //     this.number2.y == 0
-    // }
-    // console.log(this.number.y)
-    // if (this.collision(this.number, this.fish) === false) {
-    //     this.number.y += 2
-    //     this.number2.y += 2
-    // }
-    // this.number1.y += 2
-    // if (this.number.y > 600) {
-    //     this.number.y = -100
-    // }
-    // if (this.number.y <= 300) {
-    //     // this.number.color[1]
-    // }
-    // if (this.number1.y > 600) {
-    //     this.number1.y = -100;
-    // }
-    // if (this.number2.y > 600) {
-    //     this.number2.y = -100;
-    // }
-    // if (this.collision(this.number, this.fish)) {
-    //     console.log("player touches enemy 💀")
-    //     // this.pixi.stage.removeChild(this.fish);
-    // }
-    // if (this.collision(this.number1, this.fish)) {
-    //     console.log("✅✅✅✅✅")
-    //     this.number1.y = 0
-    //     // this.fallingObject1.destroy
-    //     // this.collision(this.fallingObject1, fish)
-    // }
-    // if (this.collision(this.number2, this.fish)) {
-    //     console.log("player touches enemy 💀")
-    //     this.number2.y = 0
-    //     // this.pixi.stage.removeChild(this.fish);
-    // }
+        // console.log(this.number)
+        // console.log(this.fallingObject.y)
+        if (this.collision(this.number, this.fish) || this.collision(this.number2, this.fish)) {
+            this.number.y;
+            // this.fallingObject1.y == 0
+            this.number2.y;
+        }
+        // console.log(this.number.y)
+        if (this.collision(this.number, this.fish) === false) {
+            this.number.y += 2;
+            this.number2.y += 2;
+        }
+        this.number1.y += 2;
+        if (this.number.y > 600) this.number.y = -150;
+        if (this.number1.y > 600) this.number1.y = -150;
+        if (this.number2.y > 600) this.number2.y = -150;
+        if (this.collision(this.number, this.fish)) console.log("player touches enemy 💀");
+        if (this.collision(this.number1, this.fish)) {
+            console.log("✅✅✅✅✅");
+            this.number1.y = -150;
+        // this.fallingObject1.destroy
+        // this.collision(this.fallingObject1, fish)
+        }
+        if (this.collision(this.number2, this.fish)) {
+            console.log("player touches enemy 💀");
+            this.number2.y = -150;
+        // this.pixi.stage.removeChild(this.fish);
+        }
     }
     loadcompleted() {
-        this.fish = new _fish.Fish(this.loader.resources["fishTexture"].texture, this.pixi);
+        let road = new _playingfield.Road();
+        this.pixi.stage.addChild(road);
+        this.fish = new _fish.Fish(this.loader.resources["dinoTexture"].texture, this.pixi);
         this.pixi.stage.addChild(this.fish);
-        this.number = new _number.Number(150, 350, this.loader.resources["bagTexture1"].texture, this.pixi);
-        this.number1 = new _number.Number(400, 200, this.loader.resources["bagTexture2"].texture, this.pixi);
-        this.number2 = new _number.Number(675, 300, this.loader.resources["bagTexture3"].texture, this.pixi);
+        const n = Math.floor(Math.random() * 10);
+        this.textureIndex.push(this.selectNextNumber());
+        this.textureIndex.push(this.selectNextNumber());
+        this.textureIndex.push(this.selectNextNumber());
+        console.log(this.textureIndex);
+        this.number = new _number.Number(125, -150, this.loader.resources[this.bagtextures[this.textureIndex[0]]].texture, this.pixi);
+        this.number1 = new _number.Number(375, -150, this.loader.resources[this.bagtextures[this.textureIndex[1]]].texture, this.pixi);
+        this.number2 = new _number.Number(650, -150, this.loader.resources[this.bagtextures[this.textureIndex[2]]].texture, this.pixi);
         this.pixi.stage.addChild(this.number, this.number1, this.number2);
+        let index = this.selectNextNumber();
         this.pixi.ticker.add(()=>this.update()
+        ).add(()=>this.fish.update()
         );
     }
-    // createFallingObject(color: number) {
-    //     this.number = new FallingObjects(150, -100, color)
-    // }
-    // createFallingObject1(color: number) {
-    //     this.fallingObject1 = new FallingObjects(400, -100, color)
-    // }
-    // createFallingObject2(color: number) {
-    //     this.fallingObject2.push(new FallingObjects(675, -100, color))
-    // }
+    selectNextNumber() {
+        // alle gemaakte numbers zitten in een array. 
+        // while het nieuwe nummer voorkomt in de array
+        // moet er een nieuwe gekozen worden. 
+        // let numbers: number[] = [2, 6]
+        let index = 0;
+        let newNumber = 0;
+        while(index != -1){
+            newNumber = Math.floor(Math.random() * 10);
+            index = this.textureIndex.indexOf(newNumber);
+        }
+        return newNumber;
+    }
     collision(number, fish) {
         const bounds1 = number.getBounds();
         const bounds2 = fish.getBounds();
@@ -639,7 +639,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/fish.png":"3tLwD","./fish":"7VsCH","./number":"lXZ3U","./images/1.png":"h4WSy","./images/2.png":"4Vjws","./images/3.png":"kzCwi","./images/4.png":"2dng1","./images/5.png":"2aUQN","./images/6.png":"1Jruz","./images/7.png":"5qNG0","./images/8.png":"ksapm","./images/9.png":"jRGU5","./images/10.png":"akEYY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/1.png":"h4WSy","./images/2.png":"4Vjws","./images/3.png":"kzCwi","./images/4.png":"2dng1","./images/5.png":"2aUQN","./images/6.png":"1Jruz","./images/7.png":"5qNG0","./images/8.png":"ksapm","./images/9.png":"jRGU5","./images/10.png":"akEYY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./playingfield":"6vZ0N","./number":"lXZ3U","./fish":"7VsCH","./images/dino.png":"c8KfO"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37136,8 +37136,8 @@ function __extends(d, b) {
     return AnimatedSprite1;
 }(_sprite.Sprite);
 
-},{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3tLwD":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "fish.510b053c.png" + "?" + Date.now();
+},{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"h4WSy":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "1.74b1f60c.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
@@ -37173,83 +37173,7 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"7VsCH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Fish", ()=>Fish
-);
-var _pixiJs = require("pixi.js");
-class Fish extends _pixiJs.Sprite {
-    xspeed = 0;
-    yspeed = 0;
-    constructor(texture, pixi){
-        super(texture);
-        this.y = 280;
-        this.x = 475;
-        this.tint = Math.random() * 16777215;
-        this.scale.set(-1, 1);
-        pixi.stage.addChild(this);
-        window.addEventListener("keydown", (e)=>this.onKeyDown(e)
-        );
-        window.addEventListener("keyup", (e)=>this.onKeyUp(e)
-        );
-    }
-    update() {
-        console.log("update!!!");
-        this.x += this.xspeed;
-        this.y += this.yspeed;
-    }
-    onKeyDown(e) {
-        switch(e.key.toUpperCase()){
-            case "A":
-            case "ARROWLEFT":
-                this.xspeed = -7;
-                break;
-            case "D":
-            case "ARROWRIGHT":
-                this.xspeed = 7;
-                break;
-        }
-    }
-    onKeyUp(e) {
-        switch(e.key.toUpperCase()){
-            case " ":
-                break;
-            case "A":
-            case "D":
-            case "ARROWLEFT":
-            case "ARROWRIGHT":
-                this.xspeed = 0;
-                break;
-            case "W":
-            case "S":
-            case "ARROWUP":
-            case "ARROWDOWN":
-                this.yspeed = 0;
-                break;
-        }
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lXZ3U":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Number", ()=>Number
-);
-var _pixiJs = require("pixi.js");
-class Number extends _pixiJs.Sprite {
-    constructor(xposition, yposition, moneyBag, pixi){
-        super(moneyBag);
-        this.scale.set(3, 3);
-        this.x = xposition;
-        this.y = yposition;
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"h4WSy":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "1.74b1f60c.png" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"4Vjws":[function(require,module,exports) {
+},{}],"4Vjws":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "2.b71be1b6.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"kzCwi":[function(require,module,exports) {
@@ -37275,6 +37199,88 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "9.28de
 
 },{"./helpers/bundle-url":"lgJ39"}],"akEYY":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "10.3f2bc39a.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"6vZ0N":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Road", ()=>Road
+);
+var _pixiJs = require("pixi.js");
+class Road extends _pixiJs.Graphics {
+    constructor(){
+        super();
+        // Rectangle
+        this.beginFill(16777215);
+        this.drawRect(275, 0, 266, 600);
+        this.endFill();
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lXZ3U":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Number", ()=>Number
+);
+var _pixiJs = require("pixi.js");
+class Number extends _pixiJs.Sprite {
+    constructor(xposition, yposition, moneyBag, pixi){
+        super(moneyBag);
+        this.scale.set(3, 3);
+        this.x = xposition;
+        this.y = yposition;
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7VsCH":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Fish", ()=>Fish
+);
+var _pixiJs = require("pixi.js");
+class Fish extends _pixiJs.Sprite {
+    xspeed = 0;
+    yspeed = 0;
+    xposition = 1;
+    lane = [
+        190,
+        465,
+        715
+    ];
+    constructor(texture, pixi){
+        super(texture);
+        this.y = 280;
+        this.x = 475;
+        // this.tint = Math.random() * 0xFFFFFF
+        this.scale.set(-3, 3);
+        pixi.stage.addChild(this);
+        window.addEventListener("keydown", (e)=>this.onKeyDown(e)
+        );
+    // window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
+    }
+    update() {
+        // console.log("update!!!")
+        this.x = this.lane[this.xposition];
+    }
+    onKeyDown(e) {
+        switch(e.key.toUpperCase()){
+            case "A":
+            case "ARROWLEFT":
+                if (this.xposition !== 0) {
+                    this.xposition = this.xposition - 1;
+                    break;
+                }
+            case "D":
+            case "ARROWRIGHT":
+                if (this.xposition !== 2) {
+                    this.xposition = this.xposition + 1;
+                    break;
+                }
+        }
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"c8KfO":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "dino.174d8237.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
