@@ -1,8 +1,16 @@
 import * as PIXI from 'pixi.js'
-import bubbleImage from "./images/bubble.png"
-import waterImage from "./images/water.jpg"
-import fishImage from "./images/fish.png"
-
+import number1Image from "./images/number1.png"
+import number2Image from "./images/number2.png"
+import number3Image from "./images/number3.png"
+import number4Image from "./images/number4.png"
+import number5Image from "./images/number5.png"
+import number6Image from "./images/number6.png"
+import number7Image from "./images/number7.png"
+import number8Image from "./images/number8.png"
+import number9Image from "./images/number9.png"
+import number10Image from "./images/number10.png"
+import plusImage from "./images/plus.png"
+import minImage from "./images/min.png"
 import { Road } from './road'
 import { Number } from './number'
 import { Symbol } from './symbols'
@@ -13,7 +21,7 @@ export class Game {
 
     pixi: PIXI.Application
 
-    // fishes: Fish[] = []
+    firstNumber: Number
 
     secondNumber: Number
 

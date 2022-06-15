@@ -8,6 +8,8 @@ import { Game } from './game';
 
 export class Road extends PIXI.Graphics {
 
+
+
     constructor() {
         super();
         // Rectangle
