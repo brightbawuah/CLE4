@@ -65,26 +65,39 @@ export class Game {
 
         this.dino = new Dino(this.loader.resources["dinoTexture"].texture!, this.pixi)
         this.pixi.stage.addChild(this.dino)
-        const n = Math.floor(Math.random() * 10)
 
-        this.textureIndex.push(this.selectNextNumber())
-        this.textureIndex.push(this.selectNextNumber())
-        this.textureIndex.push(this.selectNextNumber())
-
-        // console.log(this.loader.resources[this.bagtextures[this.textureIndex[0]]].texture)
-
-        this.createMoneyBag(125, -150, this.textureIndex[0], this.pixi);
-        this.createMoneyBag(375, -150, this.textureIndex[1], this.pixi)
-        this.createMoneyBag(650, -150, this.textureIndex[2], this.pixi)
-
-        // this.loader.resources[this.bagtextures[this.textureIndex[2]]].texture
-        // let index = this.selectNextNumber()
+        this.createNumberRow()
 
         this.pixi.ticker.add(() => this.update())
             .add(() => this.dino.update())
     }
 
-    selectNextNumber() {
+    private createNumberRow() {
+        this.textureIndex = []
+
+        this.textureIndex.push(this.selectNextNumber(10))
+        this.textureIndex.push(this.selectNextNumber(10))
+        this.textureIndex.push(this.selectNextNumber(10))
+
+        this.createMoneyBag(125, -150, this.bagtextures[this.textureIndex[0]], this.pixi);
+        this.createMoneyBag(375, -150, this.bagtextures[this.textureIndex[1]], this.pixi)
+        this.createMoneyBag(650, -150, this.bagtextures[this.textureIndex[2]], this.pixi)
+    }
+
+    private createOperatorRow() {
+        this.textureIndex = []
+
+        // push met this.selectNextNumber 2 x operator
+        this.textureIndex.push(this.selectNextNumber(2))
+        this.textureIndex.push(this.selectNextNumber(2))
+        console.log(this.textureIndex);
+
+        // add to createMoneyBags
+        this.createMoneyBag(125, -150, this.operatorTextures[this.textureIndex[0]], this.pixi);
+        this.createMoneyBag(375, -150, this.operatorTextures[this.textureIndex[1]], this.pixi);
+    }
+
+    selectNextNumber(length: number) {
         // alle gemaakte numbers zitten in een array. 
 
         // while het nieuwe nummer voorkomt in de array
@@ -95,7 +108,7 @@ export class Game {
         let index = 0
         let newNumber = 0
         while (index != -1) { // -1 betekent is nieuw
-            newNumber = Math.floor(Math.random() * 10)
+            newNumber = Math.floor(Math.random() * length)
             index = this.textureIndex.indexOf(newNumber)
         }
 
@@ -103,9 +116,9 @@ export class Game {
 
     }
 
-    public createMoneyBag(x: number, y: number, textureNumber: number, pixi: PIXI.Application): void {
+    public createMoneyBag(x: number, y: number, textureName: string, pixi: PIXI.Application): void {
 
-        const texture = this.loader.resources[this.bagtextures[textureNumber]].texture
+        const texture = this.loader.resources[textureName].texture
 
         if (!texture) {
             console.log("undefiened texture");
@@ -138,6 +151,9 @@ export class Game {
                 console.log("player touches enemy 💀")
                 this.deleteMoneyBag(i)
             }
+        }
+        if (this.moneybags.length == 0) {
+            this.createOperatorRow()
         }
     }
 
