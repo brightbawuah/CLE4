@@ -21,7 +21,8 @@ export class Game{
     moneybags:Moneybag[] = [] 
     moneybag: Moneybag
     rex: PIXI.Sprite
-    speed: number = 1
+    rexspeed: number = 1
+    moneyspeed: number = 1
     score: number = 0
     collided: boolean = false
 
@@ -71,31 +72,38 @@ export class Game{
         this.rex.y = 400;
         this.pixi.stage.addChild(this.rex);
 
-        this.moneybag = this.moneybags[Math.floor(Math.random() * this.moneybags.length)];
-        this.moneybag.anchor.set(0,5);
-        this.moneybag.x = 700;
-        this.moneybag.y = 400;
-        this.pixi.stage.addChild(this.moneybag);
+        this.Newmoneybag()
 
-    
-        
         this.pixi.ticker.add(() => this.gameLoop())
         
         
         
     }
+
+    Newmoneybag(){
+        this.moneybag = this.moneybags[Math.floor(Math.random() * this.moneybags.length)];
+        this.moneybag.anchor.set(0,5);
+        this.moneybag.x = 700;
+        this.moneybag.y = 400;
+        this.pixi.stage.addChild(this.moneybag);
+    
+    }
+
     gameLoop(){
-        this.rex.x += this.speed;
+        this.rex.x += this.rexspeed;
         if(this.collided === false) {
 
         
-        this.moneybag.x -= this.speed;
+        this.moneybag.x -= this.moneyspeed;
     
         if(this.rectsIntersect(this.rex, this.moneybag)){
-            this.moneybag.destroy()
-            this.score = this.moneybag.amount
+            this.rexspeed = 0
+            this.pixi.stage.removeChild(this.moneybag)
+            this.score = this.score += this.moneybag.amount
             console.log(this.score)
             this.collided = true
+            this.Newmoneybag()
+            this.collided = false
         }
     }
     
