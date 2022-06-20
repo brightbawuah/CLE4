@@ -1,12 +1,12 @@
 import * as PIXI from 'pixi.js'
-import fishImage from "./images/fish.png"
+import dinoImage from "./images/dino.png"
 import bubbleImage from "./images/bubble.png"
 import waterImage from "./images/water.jpg"
-import { Fish } from './fish'
+import { Dino } from './dino'
 import { Road } from './playingfield'
-import { FallingObject } from './fallingobject'
+import { Operator } from './operator'
 import { destroyTextureCache } from '@pixi/utils'
-import { Number } from './number'
+import { MoneyBag } from './number'
 import bagOne from "./images/1.png";
 import bagTwo from "./images/2.png";
 import bagThree from "./images/3.png";
@@ -17,21 +17,24 @@ import bagSeven from "./images/7.png";
 import bagEight from "./images/8.png";
 import bagNine from "./images/9.png";
 import bagTen from "./images/10.png";
-import dinoImage from "./images/dino.png"
+import minusBag from "./images/-.png"
+import plusBag from "./images/+.png"
+import { Resource } from 'pixi.js'
+
 
 
 
 export class Game {
-    pixi
+    pixi: PIXI.Application
 
     loader: PIXI.Loader
-    number: Number
-    number1: Number
-    number2: Number
-    fish: Fish
+    operator: Operator
+    dino: Dino
+    moneybags: MoneyBag[] = []
     bagtextures: string[] = ['bagTexture1', 'bagTexture2', 'bagTexture3', 'bagTexture4', 'bagTexture5', 'bagTexture6', 'bagTexture7', 'bagTexture8', 'bagTexture9', 'bagTexture10']
     textureIndex: number[] = []
-
+    operatorTextures: string[] = ['minusTexture', 'plusTexture']
+    operatorList: Operator[] = []
 
 
     constructor() {
@@ -51,94 +54,34 @@ export class Game {
             .add(this.bagtextures[7], bagEight)
             .add(this.bagtextures[8], bagNine)
             .add(this.bagtextures[9], bagTen)
+            .add(this.operatorTextures[0], minusBag)
+            .add(this.operatorTextures[1], plusBag)
         this.loader.load(() => this.loadcompleted())
-
-
-
-
-
-
-    }
-
-    update() {
-        // console.log(this.number)
-        // console.log(this.fallingObject.y)
-        if ((this.collision(this.number, this.fish)) ||
-            (this.collision(this.number2, this.fish))) {
-            this.number.y == 0
-            // this.fallingObject1.y == 0
-            this.number2.y == 0
-
-        }
-        // console.log(this.number.y)
-
-        if (this.collision(this.number, this.fish) === false) {
-            this.number.y += 2
-
-            this.number2.y += 2
-
-        }
-        this.number1.y += 2
-
-        if (this.number.y > 600) {
-            this.number.y = -150
-        }
-
-        if (this.number1.y > 600) {
-            this.number1.y = -150;
-        }
-
-
-        if (this.number2.y > 600) {
-            this.number2.y = -150;
-        }
-
-        if (this.collision(this.number, this.fish)) {
-            console.log("player touches enemy 💀")
-            // console.log(this.bagtextures[Math.floor(Math.random() * 9.999)])
-
-            // let number = new Number(125, -150, this.bagtextures[Math.floor(Math.random() * 10)])
-        }
-        if (this.collision(this.number1, this.fish)) {
-            console.log("✅✅✅✅✅")
-            this.number1.y = -150
-            // this.fallingObject1.destroy
-            // this.collision(this.fallingObject1, fish)
-
-
-        }
-        if (this.collision(this.number2, this.fish)) {
-            console.log("player touches enemy 💀")
-            this.number2.y = -150
-
-            // this.pixi.stage.removeChild(this.fish);
-        }
-
     }
 
     loadcompleted() {
         let road = new Road()
         this.pixi.stage.addChild(road);
 
-        this.fish = new Fish(this.loader.resources["dinoTexture"].texture!, this.pixi)
-        this.pixi.stage.addChild(this.fish)
+        this.dino = new Dino(this.loader.resources["dinoTexture"].texture!, this.pixi)
+        this.pixi.stage.addChild(this.dino)
         const n = Math.floor(Math.random() * 10)
 
         this.textureIndex.push(this.selectNextNumber())
         this.textureIndex.push(this.selectNextNumber())
         this.textureIndex.push(this.selectNextNumber())
-        console.log(this.textureIndex)
 
-        this.number = new Number(125, -150, this.loader.resources[this.bagtextures[this.textureIndex[0]]].texture!, this.pixi)
-        this.number1 = new Number(375, -150, this.loader.resources[this.bagtextures[this.textureIndex[1]]].texture!, this.pixi)
-        this.number2 = new Number(650, -150, this.loader.resources[this.bagtextures[this.textureIndex[2]]].texture!, this.pixi)
+        // console.log(this.loader.resources[this.bagtextures[this.textureIndex[0]]].texture)
 
-        this.pixi.stage.addChild(this.number, this.number1, this.number2)
+        this.createMoneyBag(125, -150, this.textureIndex[0], this.pixi);
+        this.createMoneyBag(375, -150, this.textureIndex[1], this.pixi)
+        this.createMoneyBag(650, -150, this.textureIndex[2], this.pixi)
 
-        let index = this.selectNextNumber()
+        // this.loader.resources[this.bagtextures[this.textureIndex[2]]].texture
+        // let index = this.selectNextNumber()
 
         this.pixi.ticker.add(() => this.update())
-            .add(() => this.fish.update())
+            .add(() => this.dino.update())
     }
 
     selectNextNumber() {
@@ -160,10 +103,55 @@ export class Game {
 
     }
 
-    collision(number: Number, fish: Fish) {
-        const bounds1 = number.getBounds()
+    public createMoneyBag(x: number, y: number, textureNumber: number, pixi: PIXI.Application): void {
 
-        const bounds2 = fish.getBounds()
+        const texture = this.loader.resources[this.bagtextures[textureNumber]].texture
+
+        if (!texture) {
+            console.log("undefiened texture");
+            return undefined
+        }
+
+        let moneybag = new MoneyBag(x, y, texture)
+        this.moneybags.push(moneybag)
+        this.pixi.stage.addChild(moneybag)
+    }
+
+    update() {
+        for (let i = this.moneybags.length - 1; i >= 0; i--) {
+
+            this.moneybags[i].y += 2;
+
+            if (this.moneybags[i].y > this.pixi.screen.height) {
+                console.log("out of screen");
+
+                // The moneybag moet destroyed
+                // verwijderen uit de array
+                this.deleteMoneyBag(i)
+
+            } else if (this.collision(this.moneybags[i], this.dino)) {
+                // while (this.operatorList.length > 3) {
+                //     // this.operator = new Operator(650, -200, this.loader.resources[this.operatorTextures[0]].texture!, this.pixi)
+                //     // this.operator.y += 2
+                // }
+                console.log('nu komen operatoren')
+                console.log("player touches enemy 💀")
+                this.deleteMoneyBag(i)
+            }
+        }
+    }
+
+    deleteMoneyBag(index: number) {
+        this.moneybags[index].destroy()
+
+        this.moneybags = this.moneybags.filter(moneyBag => moneyBag !== this.moneybags[index])
+        console.log(this.moneybags);
+    }
+
+    collision(moneyBag: MoneyBag, dino: Dino) {
+        const bounds1 = moneyBag.getBounds()
+
+        const bounds2 = dino.getBounds()
 
         return bounds1.x < bounds2.x + bounds2.width
             && bounds1.x + bounds1.width > bounds2.x

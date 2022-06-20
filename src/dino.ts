@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 
-export class Fish extends PIXI.Sprite {
+export class Dino extends PIXI.Sprite {
     xspeed = 0
     yspeed = 0
     xposition = 1

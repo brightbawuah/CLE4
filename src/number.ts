@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js'
 
 
-export class Number extends PIXI.Sprite {
+export class MoneyBag extends PIXI.Sprite {
 
     loader: PIXI.Loader
 
-    constructor(xposition: number, yposition: number, moneyBag: PIXI.Texture, pixi: PIXI.Application) {
+    constructor(xposition: number, yposition: number, moneyBag: PIXI.Texture) {
         super(moneyBag)
 
         this.scale.set(3, 3)
