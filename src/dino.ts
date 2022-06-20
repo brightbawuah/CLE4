@@ -1,0 +1,114 @@
+import * as PIXI from 'pixi.js'
+import { Loader } from 'pixi.js'
+import dashSound from "url:./sound/Swipe.mp3"
+
+
+export class Dino extends PIXI.Sprite {
+    xspeed = 0
+    yspeed = 0
+    xposition = 1
+    lane = [190, 465, 715]
+    dashSound: HTMLAudioElement;
+
+    private loader: PIXI.Loader
+
+
+
+
+
+    constructor(texture: PIXI.Texture, pixi: PIXI.Application, sound: HTMLAudioElement) {
+        super(texture)
+
+        this.dashSound = sound;
+        this.y = 280
+        this.x = 475
+        // this.tint = Math.random() * 0xFFFFFF
+        this.scale.set(-3, 3)
+
+
+        this.loader = new PIXI.Loader()
+
+        this.loader.add('dashSound', dashSound);
+
+
+        pixi.stage.addChild(this)
+
+        this.loader.load(() => this.loadCompleted())
+
+
+
+        // this.on('pointerdown', () => this.onClick());
+    }
+    loadCompleted(): void {
+        window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
+        // window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
+    }
+    // onClick(): void {
+    //     this.playSound();
+    // }
+    // public playSound() {
+    //     this.sound.pause();
+    //     this.sound.play();
+    // }
+
+
+    update() {
+        // console.log("update!!!")
+        this.x = this.lane[this.xposition]
+    }
+
+
+    onKeyDown(e: KeyboardEvent): void {
+        let sound = this.loader.resources['dashSound'].data!
+
+        switch (e.key.toUpperCase()) {
+            case "A":
+            case "ARROWLEFT":
+                if (this.xposition !== 0) {
+
+                    this.xposition = this.xposition - 1
+
+                }
+                sound.play()
+
+                break
+
+            case "D":
+            case "ARROWRIGHT":
+                if (this.xposition !== 2) {
+
+                    this.xposition = this.xposition + 1
+                }
+
+                sound.play()
+                break
+            // case "R":
+            //     if (this.dashSound.paused) {
+            //         this.dashSound.play();
+            //     } else {
+            //         this.dashSound.currentTime = 0
+            //     }
+        }
+
+
+    }
+
+    // private onKeyUp(e: KeyboardEvent): void {
+    //     switch (e.key.toUpperCase()) {
+    //         case " ":
+    //             break;
+    //         case "A":
+    //         case "D":
+    //         case "ARROWLEFT":
+    //         case "ARROWRIGHT":
+    //             this.xspeed = 0
+    //             break
+    //         case "W":
+    //         case "S":
+    //         case "ARROWUP":
+    //         case "ARROWDOWN":
+    //             this.yspeed = 0
+    //             break
+    //     }
+    // }
+}

@@ -516,9 +516,12 @@ function hmrAcceptRun(bundle, id) {
 },{}],"edeGs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+// import sound from "url:./sounds/audiofile.mp3" // let op url:
 parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
+var _dinoPng = require("./images/dino.png");
+var _dinoPngDefault = parcelHelpers.interopDefault(_dinoPng);
 var _number1Png = require("./images/number1.png");
 var _number1PngDefault = parcelHelpers.interopDefault(_number1Png);
 var _number2Png = require("./images/number2.png");
@@ -543,9 +546,12 @@ var _plusPng = require("./images/plus.png");
 var _plusPngDefault = parcelHelpers.interopDefault(_plusPng);
 var _minPng = require("./images/min.png");
 var _minPngDefault = parcelHelpers.interopDefault(_minPng);
+var _dino = require("./dino");
 var _road = require("./road");
 var _number = require("./number");
 var _symbols = require("./symbols");
+var _swipeMp3 = require("url:./sound/Swipe.mp3");
+var _swipeMp3Default = parcelHelpers.interopDefault(_swipeMp3);
 class Game {
     numberTexture = [
         'numberTexture1',
@@ -570,7 +576,7 @@ class Game {
         });
         document.body.appendChild(this.pixi.view);
         this.loader = new _pixiJs.Loader();
-        this.loader.add(this.numberTexture[0], _number1PngDefault.default).add(this.numberTexture[1], _number2PngDefault.default).add(this.numberTexture[2], _number3PngDefault.default).add(this.numberTexture[3], _number4PngDefault.default).add(this.numberTexture[4], _number5PngDefault.default).add(this.numberTexture[5], _number6PngDefault.default).add(this.numberTexture[6], _number7PngDefault.default).add(this.numberTexture[7], _number8PngDefault.default).add(this.numberTexture[8], _number9PngDefault.default).add(this.numberTexture[9], _number10PngDefault.default).add(this.symbolTexture[0], _plusPngDefault.default).add(this.symbolTexture[1], _minPngDefault.default);
+        this.loader.add('dinoTexture', _dinoPngDefault.default).add(this.numberTexture[0], _number1PngDefault.default).add(this.numberTexture[1], _number2PngDefault.default).add(this.numberTexture[2], _number3PngDefault.default).add(this.numberTexture[3], _number4PngDefault.default).add(this.numberTexture[4], _number5PngDefault.default).add(this.numberTexture[5], _number6PngDefault.default).add(this.numberTexture[6], _number7PngDefault.default).add(this.numberTexture[7], _number8PngDefault.default).add(this.numberTexture[8], _number9PngDefault.default).add(this.numberTexture[9], _number10PngDefault.default).add(this.symbolTexture[0], _plusPngDefault.default).add(this.symbolTexture[1], _minPngDefault.default).add('url:./sound/Swipe.mp3', _swipeMp3Default.default);
         this.loader.load(()=>this.loadCompleted()
         );
     }
@@ -582,19 +588,22 @@ class Game {
         //     this.number.push(number)
         // }
         // this.nextQuestion()
+        let dash;
         this.road = new _road.Road();
         this.pixi.stage.addChild(this.road);
+        this.dino = new _dino.Dino(this.loader.resources["dinoTexture"].texture, this.pixi, _swipeMp3Default.default);
+        this.pixi.stage.addChild(this.dino);
         let firstNumberIndex = Math.floor(Math.random() * 10);
-        this.firstNumber = new _number.Number(180, 200, this.loader.resources[this.numberTexture[firstNumberIndex]].texture, this.pixi);
+        this.firstNumber = new _number.Number(180, 280, this.loader.resources[this.numberTexture[firstNumberIndex]].texture, this.pixi);
         this.pixi.stage.addChild(this.firstNumber);
         let operatorIndex = Math.floor(Math.random() * 2);
-        this.symbol = new _symbols.Symbol(230, 300, this.loader.resources[this.symbolTexture[operatorIndex]].texture, this.pixi);
+        this.symbol = new _symbols.Symbol(230, 380, this.loader.resources[this.symbolTexture[operatorIndex]].texture, this.pixi);
         this.pixi.stage.addChild(this.symbol);
         // Als de operator een - is dan is het tweede getal dat ik invul het eerste getal of kleiner
         let secondNumberIndex = -1;
         if (operatorIndex == 1) secondNumberIndex = Math.floor(Math.random() * firstNumberIndex);
         else secondNumberIndex = Math.floor(Math.random() * 10);
-        this.secondNumber = new _number.Number(330, 200, this.loader.resources[this.numberTexture[secondNumberIndex]].texture, this.pixi);
+        this.secondNumber = new _number.Number(330, 280, this.loader.resources[this.numberTexture[secondNumberIndex]].texture, this.pixi);
         this.pixi.stage.addChild(this.secondNumber);
         //
         // const symbol = new Symbol(game.loader.resources["plusTexture"].texture!, this)
@@ -604,11 +613,12 @@ class Game {
         // this.symbols.push(symbol)
         // this.pixi.stage.addChild(symbol)
         this.pixi.ticker.add(()=>this.update()
+        ).add(()=>this.dino.update()
         );
     }
     update() {
         console.log("UPDATE!!!");
-        for (const number of this.numberTexture);
+    // this.keyboardDino.update();
     }
     // nextQuestion() {
     //     // select first number (random)
@@ -635,7 +645,7 @@ class Game {
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/number1.png":"gObKY","./images/number2.png":"2ovVX","./images/number3.png":"lgygN","./images/number4.png":"cGA4R","./images/number5.png":"84tag","./images/number6.png":"dkLrz","./images/number7.png":"lK885","./images/number8.png":"jHPrR","./images/number9.png":"hkzwr","./images/number10.png":"9GzsV","./images/plus.png":"hhba6","./images/min.png":"k7Dlr","./road":"lR9ZY","./number":"lXZ3U","./symbols":"4gBno","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/dino.png":"c8KfO","./images/number1.png":"gObKY","./images/number2.png":"2ovVX","./images/number3.png":"lgygN","./images/number4.png":"cGA4R","./images/number5.png":"84tag","./images/number6.png":"dkLrz","./images/number7.png":"lK885","./images/number8.png":"jHPrR","./images/number9.png":"hkzwr","./images/number10.png":"9GzsV","./images/plus.png":"hhba6","./images/min.png":"k7Dlr","./dino":"bztIT","./road":"lR9ZY","./number":"lXZ3U","./symbols":"4gBno","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:./sound/Swipe.mp3":"7ACYT"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37132,8 +37142,8 @@ function __extends(d, b) {
     return AnimatedSprite1;
 }(_sprite.Sprite);
 
-},{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gObKY":[function(require,module,exports) {
-module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "number1.5ba3183e.png" + "?" + Date.now();
+},{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"c8KfO":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "dino.174d8237.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
@@ -37169,7 +37179,10 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"2ovVX":[function(require,module,exports) {
+},{}],"gObKY":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "number1.5ba3183e.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"2ovVX":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "number2.8806a9dc.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgygN":[function(require,module,exports) {
@@ -37202,6 +37215,73 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "plus.a
 },{"./helpers/bundle-url":"lgJ39"}],"k7Dlr":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "min.7d0a9b7e.png" + "?" + Date.now();
 
+},{"./helpers/bundle-url":"lgJ39"}],"bztIT":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Dino", ()=>Dino
+);
+var _pixiJs = require("pixi.js");
+var _swipeMp3 = require("url:./sound/Swipe.mp3");
+var _swipeMp3Default = parcelHelpers.interopDefault(_swipeMp3);
+class Dino extends _pixiJs.Sprite {
+    xspeed = 0;
+    yspeed = 0;
+    xposition = 1;
+    lane = [
+        190,
+        465,
+        715
+    ];
+    constructor(texture, pixi, sound){
+        super(texture);
+        this.dashSound = sound;
+        this.y = 280;
+        this.x = 475;
+        // this.tint = Math.random() * 0xFFFFFF
+        this.scale.set(-3, 3);
+        this.loader = new _pixiJs.Loader();
+        this.loader.add('dashSound', _swipeMp3Default.default);
+        pixi.stage.addChild(this);
+        this.loader.load(()=>this.loadCompleted()
+        );
+    // this.on('pointerdown', () => this.onClick());
+    }
+    loadCompleted() {
+        window.addEventListener("keydown", (e)=>this.onKeyDown(e)
+        );
+    // window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
+    }
+    // onClick(): void {
+    //     this.playSound();
+    // }
+    // public playSound() {
+    //     this.sound.pause();
+    //     this.sound.play();
+    // }
+    update() {
+        // console.log("update!!!")
+        this.x = this.lane[this.xposition];
+    }
+    onKeyDown(e) {
+        let sound = this.loader.resources['dashSound'].data;
+        switch(e.key.toUpperCase()){
+            case "A":
+            case "ARROWLEFT":
+                if (this.xposition !== 0) this.xposition = this.xposition - 1;
+                sound.play();
+                break;
+            case "D":
+            case "ARROWRIGHT":
+                if (this.xposition !== 2) this.xposition = this.xposition + 1;
+                sound.play();
+                break;
+        }
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:./sound/Swipe.mp3":"7ACYT"}],"7ACYT":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "Swipe.cd45c8bb.mp3" + "?" + Date.now();
+
 },{"./helpers/bundle-url":"lgJ39"}],"lR9ZY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -37213,13 +37293,13 @@ class Road extends _pixiJs.Graphics {
         super();
         // Rectangle
         this.beginFill(14271916);
-        this.drawRect(300, 0, 200, 700);
+        this.drawRect(290, 0, 220, 700);
         this.endFill();
         this.beginFill(9070146);
-        this.drawRect(500, 0, 200, 700);
+        this.drawRect(500, 0, 220, 700);
         this.endFill();
         this.beginFill(9070146);
-        this.drawRect(100, 0, 200, 700);
+        this.drawRect(75, 0, 220, 700);
         this.endFill();
     }
 }

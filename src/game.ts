@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import dinoImage from "./images/dino.png"
 import number1Image from "./images/number1.png"
 import number2Image from "./images/number2.png"
 import number3Image from "./images/number3.png"
@@ -11,32 +12,37 @@ import number9Image from "./images/number9.png"
 import number10Image from "./images/number10.png"
 import plusImage from "./images/plus.png"
 import minImage from "./images/min.png"
+import { Dino } from './dino'
 import { Road } from './road'
 import { Number } from './number'
 import { Symbol } from './symbols'
 import { Loader } from 'pixi.js'
+import dashSound from "url:./sound/Swipe.mp3"
+// import sound from "url:./sounds/audiofile.mp3" // let op url:
 
 
 export class Game {
 
-    pixi: PIXI.Application
+    private pixi: PIXI.Application
 
-    firstNumber: Number
+    private firstNumber: Number
 
-    secondNumber: Number
+    private secondNumber: Number
 
     numberTexture: string[] = ['numberTexture1', 'numberTexture2', 'numberTexture3', 'numberTexture4', 'numberTexture5', 'numberTexture6', 'numberTexture7'
         , 'numberTexture8', 'numberTexture9', 'numberTexture10']
 
 
-    symbol: Symbol
+    private symbol: Symbol
 
-    symbolTexture: string[] = ['plusTexture', 'minTexture']
+    private symbolTexture: string[] = ['plusTexture', 'minTexture']
 
-    road: Road
+    private road: Road
+
+    private dino: Dino
 
 
-    loader: PIXI.Loader
+    private loader: PIXI.Loader
 
     constructor() {
 
@@ -46,7 +52,9 @@ export class Game {
         document.body.appendChild(this.pixi.view)
 
         this.loader = new PIXI.Loader()
-        this.loader.add(this.numberTexture[0], number1Image)
+        this.loader
+            .add('dinoTexture', dinoImage)
+            .add(this.numberTexture[0], number1Image)
             .add(this.numberTexture[1], number2Image)
             .add(this.numberTexture[2], number3Image)
             .add(this.numberTexture[3], number4Image)
@@ -59,6 +67,8 @@ export class Game {
 
             .add(this.symbolTexture[0], plusImage)
             .add(this.symbolTexture[1], minImage)
+
+            .add('url:./sound/Swipe.mp3', dashSound);
 
 
         this.loader.load(() => this.loadCompleted())
@@ -79,18 +89,26 @@ export class Game {
         // }
         // this.nextQuestion()
 
-
+        let dash
 
 
         this.road = new Road()
         this.pixi.stage.addChild(this.road)
 
+        this.dino = new Dino(this.loader.resources["dinoTexture"].texture!, this.pixi, dashSound)
+
+        this.pixi.stage.addChild(this.dino)
+
+
+
+
+
         let firstNumberIndex = Math.floor(Math.random() * 10)
-        this.firstNumber = new Number(180, 200, this.loader.resources[this.numberTexture[firstNumberIndex]].texture!, this.pixi)
+        this.firstNumber = new Number(180, 280, this.loader.resources[this.numberTexture[firstNumberIndex]].texture!, this.pixi)
         this.pixi.stage.addChild(this.firstNumber)
 
         let operatorIndex = Math.floor(Math.random() * 2)
-        this.symbol = new Symbol(230, 300, this.loader.resources[this.symbolTexture[operatorIndex]].texture!, this.pixi)
+        this.symbol = new Symbol(230, 380, this.loader.resources[this.symbolTexture[operatorIndex]].texture!, this.pixi)
         this.pixi.stage.addChild(this.symbol)
         // Als de operator een - is dan is het tweede getal dat ik invul het eerste getal of kleiner
         let secondNumberIndex = -1
@@ -100,7 +118,7 @@ export class Game {
             secondNumberIndex = Math.floor(Math.random() * 10)
         }
 
-        this.secondNumber = new Number(330, 200, this.loader.resources[this.numberTexture[secondNumberIndex]].texture!, this.pixi)
+        this.secondNumber = new Number(330, 280, this.loader.resources[this.numberTexture[secondNumberIndex]].texture!, this.pixi)
         this.pixi.stage.addChild(this.secondNumber)
 
 
@@ -117,14 +135,20 @@ export class Game {
 
 
 
+
+
         this.pixi.ticker.add(() => this.update())
+            .add(() => this.dino.update())
+
+
 
     }
     update() {
         console.log("UPDATE!!!")
-        for (const number of this.numberTexture) {
+        // this.keyboardDino.update();
 
-        }
+
+
     }
 
     // nextQuestion() {
