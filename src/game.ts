@@ -9,18 +9,24 @@ import money7I from "./images/money7-1.png.png"
 import money8I from "./images/money8-1.png.png"
 import money9I from "./images/money9-1.png.png"
 import money10I from "./images/money10-1.png.png"
+import rex from "./images/agentrex.png"
 import { Moneybag } from './moneybag';
 export class Game{
     
     pixiWidth = 800;
     pixiHeight = 450;
-
+    
     pixi : PIXI.Application;
     loader : PIXI.Loader;
-
     moneybags:Moneybag[] = [] 
+    moneybag: Moneybag
+    rex: PIXI.Sprite
+    speed: number = 1
+    score: number = 0
+    collided: boolean = false
 
-
+    
+    
     constructor(){
         this.pixi = new PIXI.Application({ width: this.pixiWidth, height: this.pixiHeight });
         this.pixi.stage.interactive = true;
@@ -36,22 +42,77 @@ export class Game{
             .add('moneyImage7', money7I)
             .add('moneyImage8', money8I)
             .add('moneyImage9', money9I)
-            .add('moneyImage10', money10I);
+            .add('moneyImage10', money10I)
+            .add('agentrex', rex);
 
         this.loader.load(()=>this.loadCompleted());
+        
     }
 
     
     loadCompleted() {
-
-
-        for(let i = 1; i < 10; i++){
+    
+        for(let i = 1; i < 11; i++){
              let bag = new Moneybag(i, this.loader)
-             this.moneybags.push(bag)
+             this.moneybags.push(bag) 
+            console.log()
         }   
+      
+      this.testcollision();
+      
+      
+      
+    }
+
+    testcollision(){
+        this.rex = new PIXI.Sprite(this.loader.resources["agentrex"].texture!)
+        this.rex.anchor.set(0,5);
+        this.rex.x = 100;
+        this.rex.y = 400;
+        this.pixi.stage.addChild(this.rex);
+
+        this.moneybag = this.moneybags[Math.floor(Math.random() * this.moneybags.length)];
+        this.moneybag.anchor.set(0,5);
+        this.moneybag.x = 700;
+        this.moneybag.y = 400;
+        this.pixi.stage.addChild(this.moneybag);
+
+    
+        
+        this.pixi.ticker.add(() => this.gameLoop())
+        
+        
+        
+    }
+    gameLoop(){
+        this.rex.x += this.speed;
+        if(this.collided === false) {
+
+        
+        this.moneybag.x -= this.speed;
+    
+        if(this.rectsIntersect(this.rex, this.moneybag)){
+            this.moneybag.destroy()
+            this.score = this.moneybag.amount
+            console.log(this.score)
+            this.collided = true
+        }
+    }
+    
        
     }
- 
+    rectsIntersect (a: PIXI.Sprite, b: PIXI.Sprite){
+        let aBox = a.getBounds();
+        let bBox = b.getBounds();
     
-}
+        return aBox.x + aBox.width > bBox.x &&
+        aBox.x < bBox.x + bBox.width &&
+        aBox.y + aBox.height > bBox.y &&
+        aBox.y < bBox.y + bBox.height;
+        
+    
+    }
+    }
+    
+
 new Game();
