@@ -20,6 +20,7 @@ import bagTen from "./images/10.png";
 import minusBag from "./images/-.png"
 import plusBag from "./images/+.png"
 import { Resource } from 'pixi.js'
+import dashSound from "url:./sound/Swipe.mp3"
 
 
 
@@ -58,6 +59,7 @@ export class Game {
             .add(this.bagtextures[9], bagTen)
             .add(this.operatorTextures[0], minusBag)
             .add(this.operatorTextures[1], plusBag)
+            .add('url:./sound/Swipe.mp3', dashSound);
         this.loader.load(() => this.loadcompleted())
     }
 
