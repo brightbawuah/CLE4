@@ -214,7 +214,7 @@ export class Game {
                 console.log(this.score)}
             }}
         }
-        if (this.moneybags.length == 0) {
+        if (this.baglist.length == 0) {
             this.createOperatorRow()
         }
     }
