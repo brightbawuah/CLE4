@@ -18,7 +18,7 @@ import { Number } from './number'
 import { Symbol } from './symbols'
 import { Loader } from 'pixi.js'
 import dashSound from "url:./sound/Swipe.mp3"
-// import sound from "url:./sounds/audiofile.mp3" // let op url:
+
 
 
 export class Game {
@@ -36,6 +36,8 @@ export class Game {
     private symbol: Symbol
 
     private symbolTexture: string[] = ['plusTexture', 'minTexture']
+
+    private equalTexture: ['equalTexture']
 
     private road: Road
 
@@ -67,6 +69,7 @@ export class Game {
 
             .add(this.symbolTexture[0], plusImage)
             .add(this.symbolTexture[1], minImage)
+
 
             .add('url:./sound/Swipe.mp3', dashSound);
 
@@ -102,6 +105,9 @@ export class Game {
 
         this.secondNumber = new Number(330, 280, this.loader.resources[this.numberTexture[secondNumberIndex]].texture!, this.pixi)
         this.pixi.stage.addChild(this.secondNumber)
+
+
+
 
         this.pixi.ticker.add(() => this.update())
             .add(() => this.dino.update())

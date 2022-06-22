@@ -22,34 +22,20 @@ export class Dino extends PIXI.Sprite {
         this.dashSound = sound;
         this.y = 280
         this.x = 475
-        // this.tint = Math.random() * 0xFFFFFF
         this.scale.set(-3, 3)
 
 
         this.loader = new PIXI.Loader()
-
         this.loader.add('dashSound', dashSound);
-
-
         pixi.stage.addChild(this)
 
-        this.loader.load(() => this.loadCompleted())
+        this.loader.load(() => this.soundCompleted())
 
-
-
-        // this.on('pointerdown', () => this.onClick());
     }
-    loadCompleted(): void {
+    soundCompleted(): void {
         window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
-        // window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
     }
-    // onClick(): void {
-    //     this.playSound();
-    // }
-    // public playSound() {
-    //     this.sound.pause();
-    //     this.sound.play();
-    // }
+
 
 
     update() {
@@ -82,33 +68,11 @@ export class Dino extends PIXI.Sprite {
 
                 sound.play()
                 break
-            // case "R":
-            //     if (this.dashSound.paused) {
-            //         this.dashSound.play();
-            //     } else {
-            //         this.dashSound.currentTime = 0
-            //     }
+
         }
 
 
     }
 
-    // private onKeyUp(e: KeyboardEvent): void {
-    //     switch (e.key.toUpperCase()) {
-    //         case " ":
-    //             break;
-    //         case "A":
-    //         case "D":
-    //         case "ARROWLEFT":
-    //         case "ARROWRIGHT":
-    //             this.xspeed = 0
-    //             break
-    //         case "W":
-    //         case "S":
-    //         case "ARROWUP":
-    //         case "ARROWDOWN":
-    //             this.yspeed = 0
-    //             break
-    //     }
-    // }
+
 }
