@@ -78,29 +78,11 @@ export class Game {
 
     loadCompleted() {
 
-
-
-        // for (let i = 1; i <= 9; i++) {
-        //     const number = new Number(game.loader.resources["numberTexture" + i].texture!, this)
-        //     this.pixi.stage.addChild(number)
-        //     number.visible = false
-        //     this.number.push(number)
-
-        // }
-        // this.nextQuestion()
-
-        let dash
-
-
         this.road = new Road()
         this.pixi.stage.addChild(this.road)
 
         this.dino = new Dino(this.loader.resources["dinoTexture"].texture!, this.pixi, dashSound)
-
         this.pixi.stage.addChild(this.dino)
-
-
-
 
 
         let firstNumberIndex = Math.floor(Math.random() * 10)
@@ -121,22 +103,6 @@ export class Game {
         this.secondNumber = new Number(330, 280, this.loader.resources[this.numberTexture[secondNumberIndex]].texture!, this.pixi)
         this.pixi.stage.addChild(this.secondNumber)
 
-
-        //
-
-
-        // const symbol = new Symbol(game.loader.resources["plusTexture"].texture!, this)
-        // symbol.x = 180
-        // symbol.y = 30
-        // symbol.visible = true
-        // this.symbols.push(symbol)
-        // this.pixi.stage.addChild(symbol)
-
-
-
-
-
-
         this.pixi.ticker.add(() => this.update())
             .add(() => this.dino.update())
 
@@ -150,28 +116,6 @@ export class Game {
 
 
     }
-
-    // nextQuestion() {
-    //     // select first number (random)
-    //     // set location
-    //     // make visible
-    //     const number = new Number(this.loader.resources["numberTexture5"].texture!, this)
-    //     number.x = 120
-    //     number.y = -5
-    //     number.visible = true
-
-
-    //     // add random operator
-
-    //     // select second number
-    //     // set location
-    //     // make visible
-    //     const number1 = new Number(game.loader.resources["numberTexture4"].texture!, this)
-    //     number1.x = 300
-    //     number1.y = 20
-    //     number1.visible = true
-
-    // }
 
     collision(sprite1: PIXI.Sprite, sprite2: PIXI.Sprite) {
         const bounds1 = sprite1.getBounds()
