@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import dinoImage from "./images/agentrex.png"
+import dinoImage from "./images/dino.png"
 import bubbleImage from "./images/bubble.png"
 import waterImage from "./images/water.jpg"
 import { Dino } from './dino'
