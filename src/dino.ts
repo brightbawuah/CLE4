@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { Loader } from 'pixi.js'
-import dashSound from "url:./sound/Swipe.mp3"
+import dashSound from "url:./Swipe.mp3"
 
 
 export class Dino extends PIXI.Sprite {
