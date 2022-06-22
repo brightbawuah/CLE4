@@ -21,7 +21,7 @@ import minusBag from "./images/-.png"
 import plusBag from "./images/+.png"
 import { Moneybag } from './moneybag'
 import { Resource } from 'pixi.js'
-import dashSound from "url:./sound/Swipe.mp3"
+import dashSound from "url:./Swipe.mp3"
 
 
 // Operators not appearing
