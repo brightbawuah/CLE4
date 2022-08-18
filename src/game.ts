@@ -5,6 +5,7 @@ import waterImage from "./images/water.jpg"
 import { Fish } from './fish'
 import geldImage from "./images/geld.png"
 import stoneImage from "./images/stone.png"
+import dinoImage from "./images/dino.png"
 import { Sprite } from 'pixi.js'
 import { Enemy } from './enemy'
 import { Money } from './money'
@@ -18,7 +19,7 @@ export class Game {
     // eigenschappen
     loader: PIXI.Loader
     pixi: PIXI.Application
-    fish: PIXI.Sprite
+    fish: Fish
     water: PIXI.Sprite
     enemy: Enemy
     enemy2: Enemy2
@@ -37,12 +38,13 @@ export class Game {
         .add('waterTexture', waterImage)
         .add('geldImage', geldImage)
         .add('stoneImage', stoneImage)
+        .add('dinoImage', dinoImage)
         this.loader.load(()=>this.loadCompleted())
     }
 
     // functies
     loadCompleted() {
-        this.fish = new Fish(this.loader.resources["fishTexture"].texture!)
+        this.fish = new Fish(this.loader.resources["dinoImage"].texture!, this.pixi)
         this.pixi.stage.addChild(this.fish)
 
         this.enemy = new Enemy(this.loader.resources["stoneImage"].texture!)
@@ -54,18 +56,21 @@ export class Game {
         this.enemy2 = new Enemy2(this.loader.resources["stoneImage"].texture!)
         this.pixi.stage.addChild(this.enemy2)
 
-        this.pixi.ticker.add( () => this.update() )
+        this.pixi.ticker.add(() => this.update())
+        .add(() => this.fish.update())
+
     }
     update(){
 
-         this.fish.x = 340
-        // this.fish.y += 3
 
-        // this.enemyfish.x = 0
-        // this.enemyfish.y += 3
+         this.money.x = 340
+         this.money.y += 3
 
-        // this.enemyfish2.x = 670
-        // this.enemyfish2.y += 3
+         this.enemy.x = 0
+         this.enemy.y += 3
+
+         this.enemy2.x = 670
+         this.enemy2.y += 3
 
         console.log(this.numbers[Math.ceil(Math.random() * this.numbers.length)])
 

@@ -530,6 +530,8 @@ var _geldPng = require("./images/geld.png");
 var _geldPngDefault = parcelHelpers.interopDefault(_geldPng);
 var _stonePng = require("./images/stone.png");
 var _stonePngDefault = parcelHelpers.interopDefault(_stonePng);
+var _dinoPng = require("./images/dino.png");
+var _dinoPngDefault = parcelHelpers.interopDefault(_dinoPng);
 var _enemy = require("./enemy");
 var _money = require("./money");
 var _enemy2 = require("./enemy2");
@@ -554,13 +556,13 @@ class Game {
         });
         document.body.appendChild(this.pixi.view);
         this.loader = new _pixiJs.Loader();
-        this.loader.add('fishTexture', _fishPngDefault.default).add('bubbleTexture', _bubblePngDefault.default).add('waterTexture', _waterJpgDefault.default).add('geldImage', _geldPngDefault.default).add('stoneImage', _stonePngDefault.default);
+        this.loader.add('fishTexture', _fishPngDefault.default).add('bubbleTexture', _bubblePngDefault.default).add('waterTexture', _waterJpgDefault.default).add('geldImage', _geldPngDefault.default).add('stoneImage', _stonePngDefault.default).add('dinoImage', _dinoPngDefault.default);
         this.loader.load(()=>this.loadCompleted()
         );
     }
     // functies
     loadCompleted() {
-        this.fish = new _fish.Fish(this.loader.resources["fishTexture"].texture);
+        this.fish = new _fish.Fish(this.loader.resources["dinoImage"].texture, this.pixi);
         this.pixi.stage.addChild(this.fish);
         this.enemy = new _enemy.Enemy(this.loader.resources["stoneImage"].texture);
         this.pixi.stage.addChild(this.enemy);
@@ -569,21 +571,22 @@ class Game {
         this.enemy2 = new _enemy2.Enemy2(this.loader.resources["stoneImage"].texture);
         this.pixi.stage.addChild(this.enemy2);
         this.pixi.ticker.add(()=>this.update()
+        ).add(()=>this.fish.update()
         );
     }
     update() {
-        this.fish.x = 340;
-        // this.fish.y += 3
-        // this.enemyfish.x = 0
-        // this.enemyfish.y += 3
-        // this.enemyfish2.x = 670
-        // this.enemyfish2.y += 3
+        this.money.x = 340;
+        this.money.y += 3;
+        this.enemy.x = 0;
+        this.enemy.y += 3;
+        this.enemy2.x = 670;
+        this.enemy2.y += 3;
         console.log(this.numbers[Math.ceil(Math.random() * this.numbers.length)]);
     }
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/fish.png":"3tLwD","./images/bubble.png":"iMP3P","./images/water.jpg":"jj9Eg","./fish":"7VsCH","./images/geld.png":"cRdoz","./images/stone.png":"cu4q5","./enemy":"e8Rej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./money":"678a3","./enemy2":"2o3kr"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/fish.png":"3tLwD","./images/bubble.png":"iMP3P","./images/water.jpg":"jj9Eg","./fish":"7VsCH","./images/geld.png":"cRdoz","./images/stone.png":"cu4q5","./enemy":"e8Rej","./money":"678a3","./enemy2":"2o3kr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/dino.png":"c8KfO"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37130,11 +37133,44 @@ parcelHelpers.export(exports, "Fish", ()=>Fish
 );
 var _pixiJs = require("pixi.js");
 class Fish extends _pixiJs.Sprite {
+    xspeed = 0;
+    yspeed = 0;
+    xposition = 1;
+    lane = [
+        190,
+        465,
+        715
+    ];
     //eigenschappen
-    constructor(texture){
+    constructor(texture, pixi){
         super(texture);
-        this.x = 0;
-        this.y = 0;
+        this.y = 280;
+        this.x = 475;
+        this.scale.set(-3, 3);
+        pixi.stage.addChild(this);
+        window.addEventListener("keydown", (e)=>this.onKeyDown(e)
+        );
+    }
+    //functies
+    update() {
+        // console.log("update!!!")
+        this.x = this.lane[this.xposition];
+    }
+    onKeyDown(e) {
+        switch(e.key.toUpperCase()){
+            case "A":
+            case "ARROWLEFT":
+                if (this.xposition !== 0) {
+                    this.xposition = this.xposition - 1;
+                    break;
+                }
+            case "D":
+            case "ARROWRIGHT":
+                if (this.xposition !== 2) {
+                    this.xposition = this.xposition + 1;
+                    break;
+                }
+        }
     }
 }
 
@@ -37187,6 +37223,9 @@ class Enemy2 extends _pixiJs.Sprite {
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"c8KfO":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "dino.174d8237.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map
