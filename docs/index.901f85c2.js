@@ -516,6 +516,7 @@ function hmrAcceptRun(bundle, id) {
 },{}],"edeGs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+// Operators not appearing
 parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
@@ -523,7 +524,7 @@ var _dinoPng = require("./images/dino.png");
 var _dinoPngDefault = parcelHelpers.interopDefault(_dinoPng);
 var _dino = require("./dino");
 var _playingfield = require("./playingfield");
-var _number = require("./number");
+//import { MoneyBagg } from './number'
 var _1Png = require("./images/1.png");
 var _1PngDefault = parcelHelpers.interopDefault(_1Png);
 var _2Png = require("./images/2.png");
@@ -548,26 +549,31 @@ var _png = require("./images/-.png");
 var _pngDefault = parcelHelpers.interopDefault(_png);
 var _png1 = require("./images/+.png");
 var _pngDefault1 = parcelHelpers.interopDefault(_png1);
+var _moneybag = require("./moneybag");
 class Game {
     moneybags = [];
-    bagtextures = [
-        'bagTexture1',
-        'bagTexture2',
-        'bagTexture3',
-        'bagTexture4',
-        'bagTexture5',
-        'bagTexture6',
-        'bagTexture7',
-        'bagTexture8',
-        'bagTexture9',
-        'bagTexture10'
-    ];
     textureIndex = [];
+    bagTexturelist = [
+        'moneyImage1',
+        'moneyImage2',
+        'moneyImage3',
+        'moneyImage4',
+        'moneyImage5',
+        'moneyImage6',
+        'moneyImage7',
+        'moneyImage8',
+        'moneyImage9',
+        'moneyImage10'
+    ];
     operatorTextures = [
         'minusTexture',
         'plusTexture'
     ];
+    baglist = [];
     operatorList = [];
+    score = 0;
+    collided = false;
+    randomnumber = [];
     constructor(){
         this.pixi = new _pixiJs.Application({
             width: 800,
@@ -575,11 +581,16 @@ class Game {
         });
         document.body.appendChild(this.pixi.view);
         this.loader = new _pixiJs.Loader();
-        this.loader.add('dinoTexture', _dinoPngDefault.default).add(this.bagtextures[0], _1PngDefault.default).add(this.bagtextures[1], _2PngDefault.default).add(this.bagtextures[2], _3PngDefault.default).add(this.bagtextures[3], _4PngDefault.default).add(this.bagtextures[4], _5PngDefault.default).add(this.bagtextures[5], _6PngDefault.default).add(this.bagtextures[6], _7PngDefault.default).add(this.bagtextures[7], _8PngDefault.default).add(this.bagtextures[8], _9PngDefault.default).add(this.bagtextures[9], _10PngDefault.default).add(this.operatorTextures[0], _pngDefault.default).add(this.operatorTextures[1], _pngDefault1.default);
+        this.loader.add('dinoTexture', _dinoPngDefault.default).add(this.bagTexturelist[0], _1PngDefault.default).add(this.bagTexturelist[1], _2PngDefault.default).add(this.bagTexturelist[2], _3PngDefault.default).add(this.bagTexturelist[3], _4PngDefault.default).add(this.bagTexturelist[4], _5PngDefault.default).add(this.bagTexturelist[5], _6PngDefault.default).add(this.bagTexturelist[6], _7PngDefault.default).add(this.bagTexturelist[7], _8PngDefault.default).add(this.bagTexturelist[8], _9PngDefault.default).add(this.bagTexturelist[9], _10PngDefault.default).add(this.operatorTextures[0], _pngDefault.default).add(this.operatorTextures[1], _pngDefault1.default);
         this.loader.load(()=>this.loadcompleted()
         );
     }
     loadcompleted() {
+        for(let i = 1; i < 11; i++){
+            let bag = new _moneybag.Moneybag(i, this.loader);
+            this.moneybags.push(bag);
+        }
+        this.Createrandomnumber();
         let road = new _playingfield.Road();
         this.pixi.stage.addChild(road);
         this.dino = new _dino.Dino(this.loader.resources["dinoTexture"].texture, this.pixi);
@@ -594,16 +605,16 @@ class Game {
         this.textureIndex.push(this.selectNextNumber(10));
         this.textureIndex.push(this.selectNextNumber(10));
         this.textureIndex.push(this.selectNextNumber(10));
-        this.createMoneyBag(125, -150, this.bagtextures[this.textureIndex[0]], this.pixi);
-        this.createMoneyBag(375, -150, this.bagtextures[this.textureIndex[1]], this.pixi);
-        this.createMoneyBag(650, -150, this.bagtextures[this.textureIndex[2]], this.pixi);
+        this.Newmoneybag(125, -150, 0, this.randomnumber[0]);
+        this.Newmoneybag(375, -150, 1, this.randomnumber[1]);
+        this.Newmoneybag(650, -150, 2, this.randomnumber[2]);
     }
     createOperatorRow() {
         this.textureIndex = [];
         // push met this.selectNextNumber 2 x operator
         this.textureIndex.push(this.selectNextNumber(2));
         this.textureIndex.push(this.selectNextNumber(2));
-        console.log(this.textureIndex);
+        //console.log(this.textureIndex);
         // add to createMoneyBags
         this.createMoneyBag(125, -150, this.operatorTextures[this.textureIndex[0]], this.pixi);
         this.createMoneyBag(375, -150, this.operatorTextures[this.textureIndex[1]], this.pixi);
@@ -627,45 +638,76 @@ class Game {
             console.log("undefiened texture");
             return undefined;
         }
-        let moneybag = new _number.MoneyBag(x, y, texture);
-        this.moneybags.push(moneybag);
-        this.pixi.stage.addChild(moneybag);
+    // let moneybag = new moneyBag(x, y, texture)
+    // this.moneybags.push(moneybag)
+    // this.pixi.stage.addChild(moneybag)
+    }
+    includes(number, array) {
+        for(let i = 0; i < array.length; i++){
+            if (array[i] == number) return true;
+        }
+        return false;
+    }
+    Createrandomnumber() {
+        for(let i = 0; i < 3; i++){
+            do this.temp = Math.floor(Math.random() * this.moneybags.length);
+            while (this.includes(this.temp, this.randomnumber))
+            this.randomnumber[i] = this.temp;
+        }
+    }
+    Newmoneybag(x, y, bagTexture, bagnumber) {
+        this.bagTexturelist[this.textureIndex[bagTexture]];
+        this.collided = false;
+        //this.moneybag = this.moneybags[Math.floor(Math.random() * this.moneybags.length)];
+        this.moneybag = this.moneybags[bagnumber];
+        this.moneybag.x = x;
+        this.moneybag.y = y;
+        this.moneybag.anchor.set(0, 5);
+        this.moneybag.scale.set(3.3);
+        this.baglist.push(this.moneybag);
+        this.pixi.stage.addChild(this.moneybag);
     }
     update() {
-        for(let i = this.moneybags.length - 1; i >= 0; i--){
-            this.moneybags[i].y += 2;
-            if (this.moneybags[i].y > this.pixi.screen.height) {
+        for(let i = this.baglist.length - 1; i >= 0; i--){
+            this.baglist[i].y += 2;
+            if (this.baglist[i].y > 1000) {
                 console.log("out of screen");
-                // The moneybag moet destroyed
-                // verwijderen uit de array
-                this.deleteMoneyBag(i);
-            } else if (this.collision(this.moneybags[i], this.dino)) {
-                // while (this.operatorList.length > 3) {
-                //     // this.operator = new Operator(650, -200, this.loader.resources[this.operatorTextures[0]].texture!, this.pixi)
-                //     // this.operator.y += 2
-                // }
-                console.log('nu komen operatoren');
-                console.log("player touches enemy 💀");
+                //       // The moneybag moet destroyed
+                //       // verwijderen uit de array
                 this.deleteMoneyBag(i);
             }
+            if (this.collided === false) {
+                for(let i = 0; i < 3; i++)if (this.collision(this.baglist[i], this.dino)) {
+                    // while (this.operatorList.length > 3) {
+                    //     // this.operator = new Operator(650, -200, this.loader.resources[this.operatorTextures[0]].texture!, this.pixi)
+                    //     // this.operator.y += 2
+                    // }
+                    console.log('nu komen operatoren');
+                    console.log("player touches enemy 💀");
+                    this.score = this.score += this.baglist[i].amount;
+                    this.collided = true;
+                    this.pixi.stage.removeChild(this.baglist[i]);
+                    console.log(this.score);
+                }
+            }
         }
-        if (this.moneybags.length == 0) this.createOperatorRow();
+        if (this.baglist.length == 0) this.createOperatorRow();
     }
     deleteMoneyBag(index) {
-        this.moneybags[index].destroy();
-        this.moneybags = this.moneybags.filter((moneyBag)=>moneyBag !== this.moneybags[index]
+        this.baglist[index].destroy();
+        this.baglist = this.baglist.filter((moneyBag)=>moneyBag !== this.baglist[index]
         );
-        console.log(this.moneybags);
+    //console.log(this.moneybags);
     }
-    collision(moneyBag, dino) {
-        const bounds1 = moneyBag.getBounds();
-        const bounds2 = dino.getBounds();
+    collision(a, b) {
+        const bounds1 = a.getBounds();
+        const bounds2 = b.getBounds();
         return bounds1.x < bounds2.x + bounds2.width && bounds1.x + bounds1.width > bounds2.x && bounds1.y < bounds2.y + bounds2.height && bounds1.y + bounds1.height > bounds2.y;
     }
 }
 let game = new Game();
 
-},{"pixi.js":"dsYej","./images/dino.png":"c8KfO","./dino":"bztIT","./playingfield":"6vZ0N","./number":"lXZ3U","./images/1.png":"h4WSy","./images/2.png":"4Vjws","./images/3.png":"kzCwi","./images/4.png":"2dng1","./images/5.png":"2aUQN","./images/6.png":"1Jruz","./images/7.png":"5qNG0","./images/8.png":"ksapm","./images/9.png":"jRGU5","./images/10.png":"akEYY","./images/-.png":"lEUvP","./images/+.png":"62X8f","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+},{"pixi.js":"dsYej","./images/dino.png":"c8KfO","./dino":"bztIT","./playingfield":"6vZ0N","./images/1.png":"h4WSy","./images/2.png":"4Vjws","./images/3.png":"kzCwi","./images/4.png":"2dng1","./images/5.png":"2aUQN","./images/6.png":"1Jruz","./images/7.png":"5qNG0","./images/8.png":"ksapm","./images/9.png":"jRGU5","./images/10.png":"akEYY","./images/-.png":"lEUvP","./images/+.png":"62X8f","./moneybag":"8apCi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37205,6 +37247,8 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Dino", ()=>Dino
 );
 var _pixiJs = require("pixi.js");
+var _swipeMp3 = require("url:./Swipe.mp3");
+var _swipeMp3Default = parcelHelpers.interopDefault(_swipeMp3);
 class Dino extends _pixiJs.Sprite {
     xspeed = 0;
     yspeed = 0;
@@ -37214,40 +37258,48 @@ class Dino extends _pixiJs.Sprite {
         465,
         715
     ];
-    constructor(texture, pixi){
+    constructor(texture, pixi, sound){
         super(texture);
+        this.dashsound = sound;
         this.y = 280;
         this.x = 475;
         // this.tint = Math.random() * 0xFFFFFF
         this.scale.set(-3, 3);
+        this.loader = new _pixiJs.Loader();
+        this.loader.add('dashSound', _swipeMp3Default.default);
         pixi.stage.addChild(this);
+        this.loader.load(()=>this.soundCompleted()
+        );
+    }
+    soundCompleted() {
         window.addEventListener("keydown", (e)=>this.onKeyDown(e)
         );
-    // window.addEventListener("keyup", (e: KeyboardEvent) => this.onKeyUp(e))
     }
     update() {
         // console.log("update!!!")
         this.x = this.lane[this.xposition];
     }
     onKeyDown(e) {
+        let sound = this.loader.resources['dashSound'].data;
         switch(e.key.toUpperCase()){
             case "A":
             case "ARROWLEFT":
-                if (this.xposition !== 0) {
-                    this.xposition = this.xposition - 1;
-                    break;
-                }
+                if (this.xposition !== 0) this.xposition = this.xposition - 1;
+                sound.play();
+                break;
             case "D":
             case "ARROWRIGHT":
-                if (this.xposition !== 2) {
-                    this.xposition = this.xposition + 1;
-                    break;
-                }
+                if (this.xposition !== 2) this.xposition = this.xposition + 1;
+                sound.play();
+                break;
         }
     }
 }
 
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6vZ0N":[function(require,module,exports) {
+},{"pixi.js":"dsYej","url:./Swipe.mp3":"5GtFy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5GtFy":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "Swipe.9d9bd87c.mp3" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"6vZ0N":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Road", ()=>Road
@@ -37257,24 +37309,15 @@ class Road extends _pixiJs.Graphics {
     constructor(){
         super();
         // Rectangle
-        this.beginFill(16777215);
-        this.drawRect(275, 0, 266, 600);
+        this.beginFill(14271916);
+        this.drawRect(290, 0, 220, 700);
         this.endFill();
-    }
-}
-
-},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lXZ3U":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "MoneyBag", ()=>MoneyBag
-);
-var _pixiJs = require("pixi.js");
-class MoneyBag extends _pixiJs.Sprite {
-    constructor(xposition, yposition, moneyBag){
-        super(moneyBag);
-        this.scale.set(3, 3);
-        this.x = xposition;
-        this.y = yposition;
+        this.beginFill(9070146);
+        this.drawRect(500, 0, 220, 700);
+        this.endFill();
+        this.beginFill(9070146);
+        this.drawRect(75, 0, 220, 700);
+        this.endFill();
     }
 }
 
@@ -37314,6 +37357,23 @@ module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "-.10e9
 },{"./helpers/bundle-url":"lgJ39"}],"62X8f":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "+.a0ef7679.png" + "?" + Date.now();
 
-},{"./helpers/bundle-url":"lgJ39"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
+},{"./helpers/bundle-url":"lgJ39"}],"8apCi":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Moneybag", ()=>Moneybag
+);
+var _pixiJs = require("pixi.js");
+class Moneybag extends _pixiJs.Sprite {
+    get amount() {
+        return this._amount;
+    }
+    constructor(amount, loader){
+        super(loader.resources[`moneyImage${amount}`].texture);
+        this._amount = amount;
+    }
+    update(delta) {}
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["fpRtI","edeGs"], "edeGs", "parcelRequirea0e5")
 
 //# sourceMappingURL=index.901f85c2.js.map

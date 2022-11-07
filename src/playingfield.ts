@@ -21,5 +21,5 @@ export class Road extends PIXI.Graphics {
         this.endFill();
     }
 
-    }
 }
+
