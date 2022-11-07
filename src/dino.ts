@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import { Loader } from 'pixi.js'
+import { AppLoaderPlugin, Loader } from 'pixi.js'
 import dashSound from "url:./Swipe.mp3"
 
 
@@ -30,6 +30,9 @@ export class Dino extends PIXI.Sprite {
     }
     soundCompleted(): void {
         window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
+        window.addEventListener("mousedown", (e: MouseEvent) => this.onMouseDown(e))
+        window.addEventListener("mousemove", (e: MouseEvent) => this.onMouseMove(e))
+        window.addEventListener("mouseup", (e: MouseEvent) => this.onMouseUp(e))
     }
 
 
@@ -63,6 +66,21 @@ export class Dino extends PIXI.Sprite {
         }
 
     }
+
+    onMouseDown(e: MouseEvent){
+        console.log('Mouse clicked')
+        console.log('X',  'Y');
+    }
+
+    onMouseMove(e: MouseEvent){
+
+    }
+
+    onMouseUp(e: MouseEvent){
+
+    }
+
+    
 
     // private onKeyUp(e: KeyboardEvent): void {
     //     switch (e.key.toUpperCase()) {

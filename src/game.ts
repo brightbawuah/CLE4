@@ -20,7 +20,7 @@ import bagTen from "./images/10.png";
 import minusBag from "./images/-.png"
 import plusBag from "./images/+.png"
 import { Moneybag } from './moneybag'
-import { Resource } from 'pixi.js'
+import { RenderTexture, Resource } from 'pixi.js'
 import dashSound from "url:./Swipe.mp3"
 
 
@@ -194,10 +194,11 @@ export class Game {
                if (this.baglist[i].y > 1000) {
                 console.log("out of screen");
 
+
             //       // The moneybag moet destroyed
             //       // verwijderen uit de array
                    this.deleteMoneyBag(i)
-               }
+               } 
             
                if(this.collided === false) {    
                 for (let i = 0; i < 3; i++){

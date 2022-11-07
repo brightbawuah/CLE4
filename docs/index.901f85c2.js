@@ -37274,6 +37274,12 @@ class Dino extends _pixiJs.Sprite {
     soundCompleted() {
         window.addEventListener("keydown", (e)=>this.onKeyDown(e)
         );
+        window.addEventListener("mousedown", (e)=>this.onMouseDown(e)
+        );
+        window.addEventListener("mousemove", (e)=>this.onMouseMove(e)
+        );
+        window.addEventListener("mouseup", (e)=>this.onMouseUp(e)
+        );
     }
     update() {
         // console.log("update!!!")
@@ -37294,6 +37300,12 @@ class Dino extends _pixiJs.Sprite {
                 break;
         }
     }
+    onMouseDown(e) {
+        console.log('Mouse clicked');
+        console.log('X', 'Y');
+    }
+    onMouseMove(e) {}
+    onMouseUp(e) {}
 }
 
 },{"pixi.js":"dsYej","url:./Swipe.mp3":"5GtFy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5GtFy":[function(require,module,exports) {
