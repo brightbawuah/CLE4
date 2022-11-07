@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 
-export class Fish extends PIXI.Sprite{
+export class Dino extends PIXI.Sprite{
 
     xspeed = 0
     yspeed = 0
@@ -13,7 +13,7 @@ export class Fish extends PIXI.Sprite{
         this.y = 280
         this.x = 475
 
-        this.scale.set(-3, 3)
+        this.scale.set(-2, 2)
         pixi.stage.addChild(this)
 
         window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
