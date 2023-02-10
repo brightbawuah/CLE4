@@ -22,6 +22,7 @@ import plusBag from "./images/+.png"
 import { Moneybag } from './moneybag'
 import { RenderTexture, Resource } from 'pixi.js'
 import dashSound from "url:./Swipe.mp3"
+import backSound from "url:./Fluffing-a-Duck.mp3"
 
 
 // Operators not appearing
@@ -76,6 +77,8 @@ export class Game {
             this.moneybags.push(bag)
         
         }
+
+
 
         this.Createrandomnumber();
 

@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { AppLoaderPlugin, Loader } from 'pixi.js'
 import dashSound from "url:./Swipe.mp3"
+import backSound from "url:./Fluffing-a-Duck.mp3"
 
 
 export class Dino extends PIXI.Sprite {
@@ -9,20 +10,21 @@ export class Dino extends PIXI.Sprite {
     xposition = 1
     lane = [190, 465, 715]
     private dashSound: HTMLAudioElement;
-    
+    private backSound: HTMLAudioElement;
      private loader: PIXI.Loader
 
 
     constructor(texture: PIXI.Texture, pixi: PIXI.Application, sound: HTMLAudioElement) {
         super(texture)
         this.dashsound = sound;
-        
+        this.backSound = sound;
+
         this.y = 280
         this.x = 475
         // this.tint = Math.random() * 0xFFFFFF
         this.scale.set(-3, 3)
         
-         this.loader = new PIXI.Loader()
+        this.loader = new PIXI.Loader()
         this.loader.add('dashSound', dashSound);
         pixi.stage.addChild(this)
 
@@ -67,16 +69,21 @@ export class Dino extends PIXI.Sprite {
 
     }
 
-    onMouseDown(e: MouseEvent){
+    onMouseDown(e: MouseEvent): void{
+        let sound = this.loader.resources['dashSound'].data!
+
         console.log('Mouse clicked')
         console.log('X',  'Y');
+        
     }
 
     onMouseMove(e: MouseEvent){
+        let sound = this.loader.resources['dashSound'].data!
 
     }
 
     onMouseUp(e: MouseEvent){
+        let sound = this.loader.resources['dashSound'].data!
 
     }
 

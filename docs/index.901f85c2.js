@@ -37261,6 +37261,7 @@ class Dino extends _pixiJs.Sprite {
     constructor(texture, pixi, sound){
         super(texture);
         this.dashsound = sound;
+        this.backSound = sound;
         this.y = 280;
         this.x = 475;
         // this.tint = Math.random() * 0xFFFFFF
@@ -37301,14 +37302,19 @@ class Dino extends _pixiJs.Sprite {
         }
     }
     onMouseDown(e) {
+        let sound = this.loader.resources['dashSound'].data;
         console.log('Mouse clicked');
         console.log('X', 'Y');
     }
-    onMouseMove(e) {}
-    onMouseUp(e) {}
+    onMouseMove(e) {
+        let sound = this.loader.resources['dashSound'].data;
+    }
+    onMouseUp(e) {
+        let sound = this.loader.resources['dashSound'].data;
+    }
 }
 
-},{"pixi.js":"dsYej","url:./Swipe.mp3":"5GtFy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5GtFy":[function(require,module,exports) {
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:./Swipe.mp3":"5GtFy"}],"5GtFy":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "Swipe.9d9bd87c.mp3" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"6vZ0N":[function(require,module,exports) {

@@ -1,11 +1,9 @@
 import * as PIXI from 'pixi.js'
 
-
 export class Road extends PIXI.Graphics {
 
-   
-
      constructor() {
+  
         super();
         // Rectangle
         this.beginFill(14271916);
@@ -19,7 +17,9 @@ export class Road extends PIXI.Graphics {
         this.beginFill(9070146);
         this.drawRect(75, 0, 220, 700);
         this.endFill();
+
+
+    
     }
 
 }
-
