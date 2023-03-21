@@ -11,11 +11,6 @@ import { Enemy } from './enemy'
 import { MoneyBag } from './money'
 import { Enemy2 } from './enemy2'
 
-
-
-
-
-
 export class Game {
     // eigenschappen
     loader: PIXI.Loader
@@ -41,7 +36,8 @@ export class Game {
         .add('stoneImage', stoneImage)
         .add('dinoImage', dinoImage)
         this.loader.load(()=>this.loadCompleted())
-    }
+
+    }   
 
     // functies
     loadCompleted() {
@@ -59,25 +55,22 @@ export class Game {
 
         this.pixi.ticker.add(() => this.update())
         .add(() => this.dino.update())
-
     }
+
     update(){
-        for (let i = - 1; i >= 0; i--) {
+          this.money.y += 3
+          this.enemy.y += 3
+          this.enemy2.y += 3
 
-        }
+         if (this.money.y === 450) {
+            this.money.y = 0
+            this.enemy.y = 0
+            this.enemy2.y = 0
+         }
 
-         this.money.x = 465
-         this.money.y += 3
-
-         this.enemy.x = 190
-         this.enemy.y += 3
-
-         this.enemy2.x = 715
-         this.enemy2.y += 3
-
-        // console.log(this.numbers[Math.ceil(Math.random() * this.numbers.length)])
 
     }
+
         collision(money: MoneyBag, dino: Dino) {
             const bounds1 = money.getBounds()
     
