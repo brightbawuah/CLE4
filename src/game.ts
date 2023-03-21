@@ -49,7 +49,7 @@ export class Game {
     road: Road
 
     constructor() {
-        this.pixi = new PIXI.Application({ width: 800, height: 400 })
+        this.pixi = new PIXI.Application({ width: 800, height: 450 })
         document.body.appendChild(this.pixi.view)
 
         this.loader = new PIXI.Loader()

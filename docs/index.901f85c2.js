@@ -520,6 +520,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Game", ()=>Game
 );
 var _pixiJs = require("pixi.js");
+<<<<<<< HEAD
 var _dinoPng = require("./images/dino.png");
 var _dinoPngDefault = parcelHelpers.interopDefault(_dinoPng);
 var _dino = require("./dino");
@@ -574,13 +575,46 @@ class Game {
     score = 0;
     collided = false;
     randomnumber = [];
+=======
+var _fishPng = require("./images/fish.png");
+var _fishPngDefault = parcelHelpers.interopDefault(_fishPng);
+var _bubblePng = require("./images/bubble.png");
+var _bubblePngDefault = parcelHelpers.interopDefault(_bubblePng);
+var _waterJpg = require("./images/water.jpg");
+var _waterJpgDefault = parcelHelpers.interopDefault(_waterJpg);
+var _dino = require("./dino");
+var _geldPng = require("./images/geld.png");
+var _geldPngDefault = parcelHelpers.interopDefault(_geldPng);
+var _stonePng = require("./images/stone.png");
+var _stonePngDefault = parcelHelpers.interopDefault(_stonePng);
+var _dinoPng = require("./images/dino.png");
+var _dinoPngDefault = parcelHelpers.interopDefault(_dinoPng);
+var _enemy = require("./enemy");
+var _money = require("./money");
+var _enemy2 = require("./enemy2");
+class Game {
+    numbers = [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+    ];
+    // gameover = boolean = true
+>>>>>>> fallingobjects
     constructor(){
         this.pixi = new _pixiJs.Application({
             width: 800,
-            height: 400
+            height: 450
         });
         document.body.appendChild(this.pixi.view);
         this.loader = new _pixiJs.Loader();
+<<<<<<< HEAD
         this.loader.add('dinoTexture', _dinoPngDefault.default).add(this.bagTexturelist[0], _1PngDefault.default).add(this.bagTexturelist[1], _2PngDefault.default).add(this.bagTexturelist[2], _3PngDefault.default).add(this.bagTexturelist[3], _4PngDefault.default).add(this.bagTexturelist[4], _5PngDefault.default).add(this.bagTexturelist[5], _6PngDefault.default).add(this.bagTexturelist[6], _7PngDefault.default).add(this.bagTexturelist[7], _8PngDefault.default).add(this.bagTexturelist[8], _9PngDefault.default).add(this.bagTexturelist[9], _10PngDefault.default).add(this.operatorTextures[0], _pngDefault.default).add(this.operatorTextures[1], _pngDefault1.default);
         this.loader.load(()=>this.loadcompleted()
         );
@@ -696,6 +730,24 @@ class Game {
     deleteMoneyBag(index) {
         this.baglist[index].destroy();
         this.baglist = this.baglist.filter((moneyBag)=>moneyBag !== this.baglist[index]
+=======
+        this.loader.add('fishTexture', _fishPngDefault.default).add('bubbleTexture', _bubblePngDefault.default).add('waterTexture', _waterJpgDefault.default).add('geldImage', _geldPngDefault.default).add('stoneImage', _stonePngDefault.default).add('dinoImage', _dinoPngDefault.default);
+        this.loader.load(()=>this.loadCompleted()
+        );
+    }
+    // functies
+    loadCompleted() {
+        this.dino = new _dino.Dino(this.loader.resources["dinoImage"].texture, this.pixi);
+        this.pixi.stage.addChild(this.dino);
+        this.enemy = new _enemy.Enemy(this.loader.resources["stoneImage"].texture);
+        this.pixi.stage.addChild(this.enemy);
+        this.money = new _money.MoneyBag(this.loader.resources["geldImage"].texture);
+        this.pixi.stage.addChild(this.money);
+        this.enemy2 = new _enemy2.Enemy2(this.loader.resources["stoneImage"].texture);
+        this.pixi.stage.addChild(this.enemy2);
+        this.pixi.ticker.add(()=>this.update()
+        ).add(()=>this.dino.update()
+>>>>>>> fallingobjects
         );
     //console.log(this.moneybags);
     }
@@ -704,10 +756,29 @@ class Game {
         const bounds2 = b.getBounds();
         return bounds1.x < bounds2.x + bounds2.width && bounds1.x + bounds1.width > bounds2.x && bounds1.y < bounds2.y + bounds2.height && bounds1.y + bounds1.height > bounds2.y;
     }
+    update() {
+        this.money.y += 3;
+        this.enemy.y += 3;
+        this.enemy2.y += 3;
+        if (this.money.y === 450) {
+            this.money.y = 0;
+            this.enemy.y = 0;
+            this.enemy2.y = 0;
+        }
+    }
+    collision(money, dino) {
+        const bounds1 = money.getBounds();
+        const bounds2 = dino.getBounds();
+        return bounds1.x < bounds2.x + bounds2.width && bounds1.x + bounds1.width > bounds2.x && bounds1.y < bounds2.y + bounds2.height && bounds1.y + bounds1.height > bounds2.y;
+    }
 }
 let game = new Game();
 
+<<<<<<< HEAD
 },{"pixi.js":"dsYej","./images/dino.png":"c8KfO","./dino":"bztIT","./playingfield":"6vZ0N","./images/1.png":"h4WSy","./images/2.png":"4Vjws","./images/3.png":"kzCwi","./images/4.png":"2dng1","./images/5.png":"2aUQN","./images/6.png":"1Jruz","./images/7.png":"5qNG0","./images/8.png":"ksapm","./images/9.png":"jRGU5","./images/10.png":"akEYY","./images/-.png":"lEUvP","./images/+.png":"62X8f","./moneybag":"8apCi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dsYej":[function(require,module,exports) {
+=======
+},{"pixi.js":"dsYej","./images/geld.png":"cRdoz","./images/stone.png":"cu4q5","./images/dino.png":"c8KfO","./dino":"bztIT","./enemy":"e8Rej","./money":"678a3","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./images/fish.png":"3tLwD","./images/bubble.png":"iMP3P","./images/water.jpg":"jj9Eg","./enemy2":"2o3kr"}],"dsYej":[function(require,module,exports) {
+>>>>>>> fallingobjects
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "utils", ()=>_utils
@@ -37204,8 +37275,13 @@ function __extends(d, b) {
     return AnimatedSprite1;
 }(_sprite.Sprite);
 
+<<<<<<< HEAD
 },{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"c8KfO":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "dino.174d8237.png" + "?" + Date.now();
+=======
+},{"@pixi/core":"7PEF8","@pixi/sprite":"9mbxh","@pixi/ticker":"8ekG7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cRdoz":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "geld.328bfb68.png" + "?" + Date.now();
+>>>>>>> fallingobjects
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
@@ -37241,14 +37317,27 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
+<<<<<<< HEAD
 },{}],"bztIT":[function(require,module,exports) {
+=======
+},{}],"cu4q5":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "stone.6e46483e.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"c8KfO":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "dino.174d8237.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"bztIT":[function(require,module,exports) {
+>>>>>>> fallingobjects
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Dino", ()=>Dino
 );
 var _pixiJs = require("pixi.js");
+<<<<<<< HEAD
 var _swipeMp3 = require("url:./Swipe.mp3");
 var _swipeMp3Default = parcelHelpers.interopDefault(_swipeMp3);
+=======
+>>>>>>> fallingobjects
 class Dino extends _pixiJs.Sprite {
     xspeed = 0;
     yspeed = 0;
@@ -37258,6 +37347,7 @@ class Dino extends _pixiJs.Sprite {
         465,
         715
     ];
+<<<<<<< HEAD
     constructor(texture, pixi, sound){
         super(texture);
         this.dashsound = sound;
@@ -37268,6 +37358,14 @@ class Dino extends _pixiJs.Sprite {
         this.scale.set(-3, 3);
         this.loader = new _pixiJs.Loader();
         this.loader.add('dashSound', _swipeMp3Default.default);
+=======
+    //eigenschappen
+    constructor(texture, pixi){
+        super(texture);
+        this.y = 280;
+        this.x = 475;
+        this.scale.set(-2, 2);
+>>>>>>> fallingobjects
         pixi.stage.addChild(this);
         this.loader.load(()=>this.soundCompleted()
         );
@@ -37275,13 +37373,17 @@ class Dino extends _pixiJs.Sprite {
     soundCompleted() {
         window.addEventListener("keydown", (e)=>this.onKeyDown(e)
         );
+<<<<<<< HEAD
         window.addEventListener("mousedown", (e)=>this.onMouseDown(e)
         );
         window.addEventListener("mousemove", (e)=>this.onMouseMove(e)
         );
         window.addEventListener("mouseup", (e)=>this.onMouseUp(e)
         );
+=======
+>>>>>>> fallingobjects
     }
+    //functies
     update() {
         // console.log("update!!!")
         this.x = this.lane[this.xposition];
@@ -37291,6 +37393,7 @@ class Dino extends _pixiJs.Sprite {
         switch(e.key.toUpperCase()){
             case "A":
             case "ARROWLEFT":
+<<<<<<< HEAD
                 if (this.xposition !== 0) this.xposition = this.xposition - 1;
                 sound.play();
                 break;
@@ -37388,6 +37491,75 @@ class Moneybag extends _pixiJs.Sprite {
     constructor(amount, loader){
         super(loader.resources[`moneyImage${amount}`].texture);
         this._amount = amount;
+=======
+                if (this.xposition !== 0) {
+                    this.xposition = this.xposition - 1;
+                    break;
+                }
+            case "D":
+            case "ARROWRIGHT":
+                if (this.xposition !== 2) {
+                    this.xposition = this.xposition + 1;
+                    break;
+                }
+        }
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"e8Rej":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Enemy", ()=>Enemy
+);
+var _pixiJs = require("pixi.js");
+class Enemy extends _pixiJs.Sprite {
+    //eigenschappen
+    constructor(texture){
+        super(texture);
+        this.x = 190;
+        this.scale.set(-2, 2);
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"678a3":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "MoneyBag", ()=>MoneyBag
+);
+var _pixiJs = require("pixi.js");
+class MoneyBag extends _pixiJs.Sprite {
+    //eigenschappen
+    constructor(texture){
+        super(texture);
+        this.x = 465;
+        this.y += 3;
+        this.scale.set(-2, 2);
+    }
+}
+
+},{"pixi.js":"dsYej","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3tLwD":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "fish.510b053c.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"iMP3P":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "bubble.56ab0ad6.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"jj9Eg":[function(require,module,exports) {
+module.exports = require('./helpers/bundle-url').getBundleURL('emE5o') + "water.59ff4e4f.jpg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"2o3kr":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Enemy2", ()=>Enemy2
+);
+var _pixiJs = require("pixi.js");
+class Enemy2 extends _pixiJs.Sprite {
+    //eigenschappen
+    constructor(texture){
+        super(texture);
+        this.x = 715;
+        this.y = 0;
+        this.scale.set(-2, 2);
+>>>>>>> fallingobjects
     }
     update(delta) {}
 }
